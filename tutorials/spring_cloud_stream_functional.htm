@@ -1,0 +1,131 @@
+<hr>
+<h2>Spring Cloud Stream Functional Programming</h2>
+<i>22-12-2021 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    <h3>Microservices Asynchronous Communication</h3>
+    <p>There are two concepts regarding communication between microservices:</p>
+    <ol>
+        <li>Synchronized - via <code>HTTP(S)</code> over <code>REST</code> for example.</li>
+        <li>Asynchronous (or, Event Driven Communication) - via message brokers for example (Kafka\RabbitMQ...)</li>
+    </ol>
+    <p>With event driven communication, we can send from P2P or via pub\sub any events we want, for example: state
+        changed or content.</p>
+    <h3>Spring Cloud Stream</h3>
+    <p>Among the many projects within the <a href="https://spring.io/projects/spring-cloud">Spring Cloud Project</a>,
+        the <a href="https://spring.io/projects/spring-cloud-stream">Spring Cloud Stream</a> library provided the
+        developer an abstraction\wrapper implementation on top of the messaging brokers.</p>
+    <p>That means that <code>Spring</code> application could:</p>
+    <ol>
+        <li>Conenct to the message brokers with minimal configurations.</li>
+        <li>Replace the message broker with minimal modifications.</li>
+    </ol>
+    <h4>RabbitMQ</h4>
+    <p>We will not cover and learn about the <code>RabbitMQ</code> message broker, but it widely popular lightweight
+        messaging platform.</p>
+    <p>We will install via docker command (if you don't want use docker, feel free to install it as you wish)</p>
+    <div id="spring_cloud_stream_imper_1">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_1', '<script src="https://gist.github.com/shaikezam/c42bb3ad44202108d7a6afe50b5451e0.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Using this command, we installed (as <code>container</code>) a <code>RabbitMQ</code> <code>docker</code> image
+        with management GUI and it will be accessible via <code>localhost:15672</code> with username <code>guest</code>
+        and password <code>guest</code> (those are the defaults).</p>
+    <h4>Spring Cloud Stream Functional Programming vs Imperative Programming</h4>
+    <p>Until version v2.1.0, SCS (Spring Cloud Stream) worked as annotation-based programing (just as the previous
+        guide).</p>
+    <p>From this version, SCS preferred way of work is using the function based.</p>
+    <p>Both are valid and fully functioning implementations.</p>
+    <p>Both do the same thing and both produce the same result &ndash; except that, in the annotation-based, the user
+        has to be aware of SCS abstractions (that is, messaging, channels, binding, and so on) while the actual user
+        code has nothing to do with any of them.</p>
+    <p>Instead of working with annotation-based configuration, spring now uses detected beans of
+        Consumer/Function/Supplier to define your streams for you.&nbsp;</p>
+    <p>The <code>Supplier</code> works as publisher, the <code>Function</code> worked as Processor and the
+        <code>Consumer</code> works as subscriber.
+    </p>
+    <p>Our simple application will be a&nbsp;<code>Spring Boot</code>&nbsp;application that publish and consume tasks.
+    </p>
+    <p>The maven project will be defined in the <code>pom.xml</code>:</p>
+    <div id="spring_cloud_stream_imper_2">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_2', '<script src="https://gist.github.com/shaikezam/d6e70e4ed10dd04bfae1cf049f44a7c9.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>It's pretty simillar to the Spring Cloud Stream Imperative Programming guide.</p>
+    <p>Then, let's create our model: <code>Task</code></p>
+    <div id="spring_cloud_stream_imper_3">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_3', '<script src="https://gist.github.com/shaikezam/2b99f1f115fb68ce5c3798cbe088e042.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Once again it's pretty simillar to the Spring Cloud Stream Imperative Programming guide except we have a task's
+        <code>Status</code> which represent an <code>enum</code> (the status of the task).
+    </p>
+    <div id="spring_cloud_stream_imper_4">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_4', '<script src="https://gist.github.com/shaikezam/2a25ea52fdb819783c9ef8412f40fad1.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Next we will define our <code>application.yml</code> file.</p>
+    <div id="spring_cloud_stream_imper_5">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_5', '<script src="https://gist.github.com/shaikezam/f6cba8a12794488eee882d784cc245d6.js"><\/script>');
+            });
+        </script>
+    </div>
+    <ul>
+        <li>At the buttom we notice the <code>RabbitMQ</code> connection details.</li>
+        <li><code>spring.cloud.stream.function.definition</code> is a list of the function names (<code>Supplier</code>,
+            <code>Function</code> &amp; <code>Consumer</code>) that you will bind to Spring Cloud Stream channels.
+        </li>
+        <li><code>spring.cloud.stream.bindings</code>&nbsp;is where you actually bind the functions to the input and
+            output channels.
+            <ul>
+                <li>For example, <code>process-in-0</code> in the example above defines a binding for function
+                    <code>process</code> that is
+                    an&nbsp;<strong>input</strong>&nbsp;that&nbsp;<strong>subscribes</strong>&nbsp;to a channel with the
+                    data it receives in the first input parameter (index 0).
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <p>Notice how the three bound functions, <code>process;subscribe;publish</code>, match the three functions in the
+        next <code>RabbitmqHelloWorldFunctionalProgrammingApplication</code> class.&nbsp;</p>
+    <div id="spring_cloud_stream_imper_6">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_6', '<script src="https://gist.github.com/shaikezam/4d0560b921892a40ea0867217b9d8e04.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p><code>publish</code> method binds to the <code>publisher_channel</code> to which it is going to send a random
+        task every second. This, by the way, is a property of Spring&rsquo;s implementation of the
+        <code>Supplier</code>&nbsp;interface; Spring triggers it automatically every second, so it&rsquo;s a great tool
+        for testing and developing streams.
+    </p>
+    <p><code>process</code> receives the random task from the <code>publisher_channel</code> channel, set it's new
+        status, and publishes the updated task on the <code>subscriber_channel</code> channel.</p>
+    <p><code>subscribe</code> listens to the <code>subscriber_channel</code> channel and logs the task.</p>
+    <p>Now, if we run the application we will see in the console the prints upon tasks producing and consuming:</p>
+    <div id="spring_cloud_stream_imper_7">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_7', '<script src="https://gist.github.com/shaikezam/5afeed5b48b9f8ec66afe0586812f566.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Feel free to look in the&nbsp;<a
+            href="https://github.com/shaikezam/spring-cloud-stream-rabbitmq-functional-programming">source
+            code</a>&nbsp;and try it your own.</p>
+</div>

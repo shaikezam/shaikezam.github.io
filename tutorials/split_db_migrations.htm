@@ -1,0 +1,116 @@
+<hr>
+<h2>Split DB migration from services using Kubernetes jobs</h2>
+<i>15-02-2022 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    <h3>Motivation</h3>
+    <p>While in the monolithic architecture we perform a DB migration \ upgrade before the application is started, in
+        the micro-services pattern this can lead to some huge issues:</p>
+    <ol>
+        <li>Upon each new service is created or restarted, it will try to run the migrations again.It's fine if our
+            migration scripts are written correctly and this should not be an issue however it&rsquo;s not a best
+            practice &amp; clean design.</li>
+        <li>If the migration takes a while, the service can act as not-healty and to be terminated before the migration
+            is done.it can be resolved while increasing the initial delay for the service's readiness check, but then it
+            makes it hard to understand if a service is not starting because it&rsquo;s of DB migrations or because of a
+            different issue.</li>
+        <li>Depending on our deployment strategy (how many services can be added/removed at any point of time during a
+            deployment), we may have 2 identical migrations running at the same time, resulting in conflicts and errors.
+        </li>
+    </ol>
+    <p>To handle those issues we must separate the migration part from the services itself.</p>
+    <h3>The Solution - K8S Jobs to the rescue</h3>
+    <p>To demonstrate our solution, we will using <code>Kubernetes</code> as a services orchestration (if you are not
+        familiar with <code>K8S</code>, please read about it, it must have in your tool
+        box).</p>
+    <img src="/style/split_db_migration.png" class="center-img"><br>
+    <p>In our scenario, we have a simple application, that runs inside <code>K8S deployment</code> in three pods.</p>
+    <p>We attach to the app a <code>LoadBalancer K8S service</code> so, we can access to this deployment from outside
+        via <code>localhost</code>.</p>
+    <p>Also, we have another <code>K8S deployment</code> that contains a single instance of <code>Postgres</code> pod
+        and we attached to it a <code>K8S ClusterIP</code> service.</p>
+    <p>Last, we will have a K8S Job that runs an image of Flyway that responsible to perform the DB migration.</p>
+    <p>We will migrate DB using <a href="https://flywaydb.org/">Flyway</a> - Robust schema evolution across all your
+        environments, with ease, pleasure, and plain SQL.</p>
+    <p>In the simple <code>Spring Boot app</code> we will have two <code>application.yml</code> files for each profile:
+    </p>
+    <p><code>dev</code> - that we will enable <code>Flyway</code> migration, relevant only in local devlopement environment:</p>
+    <div id="db_migration_1">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#db_migration_1', '<script src="https://gist.github.com/shaikezam/9299b46168c8c26cdb89a952327f7962.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p><code>prod</code> - that will disable <code>Flyway</code> relevant only in the production environment.
+    </p>
+    <div id="db_migration_2">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#db_migration_2', '<script src="https://gist.github.com/shaikezam/80c37fb6e8df02fa00ac8bb61ededf36.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>As we can see, our app runs over port 5555 and attached to <code>Postgres</code> DB</p>
+    <p>Also, we will create two <code>Dockerfile</code> (<code>Docker</code> can build images automatically by reading
+        the instructions from a <code>Dockerfile</code>) to create our images:</p>
+    <p><code>Dockerfile</code> for building our app's image:</p>
+    <div id="db_migration_3">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#db_migration_3', '<script src="https://gist.github.com/shaikezam/de7d51392f7f25d73afa83817806a2ac.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Our base image is Alpine and we install on top of it a JDK version 11.</p>
+    <p>After that, we copy the app's Jar file and the entrypoint (an instruction is used to set executables that will
+        always run when the container is initiated.) will start the Jar
+        with the prod profile (to disable the Flyway)</p>
+    <p>The 2nd Dockerfile for building an image on top of Flyway:</p>
+    <div id="db_migration_4">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#db_migration_4', '<script src="https://gist.github.com/shaikezam/f10d9a59e7acdafe91df98d7bf7c682d.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>We will remove the default <code>Flyway</code> configuration and all upgrade scripts and copy our configuration
+        from the root folder and the upgrade scripts from <code>src/main/resources/db/migration/</code>.</p>
+    <p>And finally, the entrypoint will be <code>flyway migrate</code> to start the migration.</p>
+    <h3>Running the POC</h3>
+    <p>Clone the <a href="https://github.com/shaikezam/k8s-split-DB-migration-from-services">GiHub trepository</a>, or download it and open it as a <code>maven</code> project.</p>
+    <p>Need to build a <code>JAR</code>&nbsp;for the application for version&nbsp;<code>1.0.0</code>:</p>
+    <ul>
+        <li><code>mvn clean install -DskipTests</code></li>
+    </ul>
+    <p>Build&nbsp;<code>Image</code>&nbsp;for the application &amp; for migration for version&nbsp;<code>1.0.0</code>
+    </p>
+    <ul>
+        <li><code>docker build -t app:1.0.0 .</code></li>
+        <li><code>docker build -t app-migration:1.0.0 -f MigrationDockerfile .</code></li>
+    </ul>
+    <p>Modify the script&nbsp;<code>db/migration/V2__insert_new_user.sql_</code>&nbsp;and remove
+        the&nbsp;<code>_</code>&nbsp;in the end.</p>
+    <p>Build&nbsp;<code>JAR</code>&nbsp;for the application for version&nbsp;<code>1.0.1</code>&#58;</p>
+    <ul>
+        <li><code>mvn clean install -DskipTests</code></li>
+    </ul>
+    <p>Build&nbsp;<code>Image</code>&nbsp;for the application &amp; for migration for version&nbsp;<code>1.0.1</code>&#58;
+    </p>
+    <ul>
+        <li><code>docker build -t app:1.0.1 .</code></li>
+        <li><code>docker build -t app-migration:1.0.1 -f MigrationDockerfile</code></li>
+    </ul>
+    <p>Deploy all K8S resources&nbsp;<code>kubectl apply -f app.yml</code></p>
+    <p>Application accessible via&nbsp;<code>http://localhost:5555/users</code>&nbsp;and verify only 1 user is
+        retrieved.</p>
+    <p>modify&nbsp;<code>app.yml</code>&nbsp;and
+        update&nbsp;<code>app</code>&nbsp;&amp;&nbsp;<code>app-migration</code>&nbsp;to version 1.0.1 and deploy all K8S
+        resources&nbsp;<code>kubectl apply -f app.yml</code></p>
+    <p>Application accessible via&nbsp;<code>http://localhost:5555/users</code>&nbsp;and verify 2 users are retrieved.
+    </p>
+    <p>To remove all k8s
+        resources&nbsp;<code>kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all</code></p>
+    <p>Feel free to look in the <a href="https://github.com/shaikezam/k8s-split-DB-migration-from-services">source
+            code</a> and try it your own.</p>
+</div>

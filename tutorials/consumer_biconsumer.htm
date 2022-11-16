@@ -1,0 +1,74 @@
+<hr>
+<h2>Consumer & BiConsumer Java 8 API</h2>
+<i>21-01-2022 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    <h3>Functional Interfaces</h3>
+    <h4>Before Java 8</h4>
+    <p>As an Object-Oriented Programming language, <code>Java</code> has declared almost everthing in the
+        <code>Object</code> model (except for some of the primitive data types and primitive methods).
+    </p>
+    <p>Functions in Java were only a part of a class and to use them we need to use the <code>Class</code> or to
+        create an instance of it.</p>
+    <h4>From Java 8 onwards</h4>
+    <p>Since <code>Java</code> 8, <code>Java</code> brought us the interface <code>FunctionalInterface</code>:</p>
+    <p>Conceptually, a functional interface has exactly one abstract method, however, they can include any quantity of
+        default and static methods.</p>
+    <p>Note that instances of functional interfaces can be created with:</p>
+    <ul>
+        <li>Lambda expressions.</li>
+        <li>Method references</li>
+        <li>Constructor references.</li>
+    </ul>
+    <p>The purpose of <code>FunctionalInterface</code> is to make code more readable, clean, and straightforward.</p>
+    <p>There are many types of <code>FunctionalInterface</code>; <code>Runnable</code>, <code>Callable</code> and so on.
+    </p>
+    <p>In this tutorial we will learn about the <code>Consumer</code> &amp; <code>BiConsumer FunctionalInterface</code>.
+    </p>
+    <h3>Consumer interface</h3>
+    <p>A <code>FunctionalInterface</code> that can be used when creating <code>lambda expressions</code> or
+        <code>method references</code> (<code>Constructor references</code> irrelevant as <code>Consumer</code> returns
+        nothing) in which accepts an argument and returns nothing.
+    </p>
+    <p>The <code>Consumer FunctionalInterface</code> has only one method named <code>accept()</code>, also we can chain
+        multiple Consumers with the <code>andThen()</code> method.</p>
+    <ul>
+        <li><code>Consumer</code> by method references:</li>
+        <div id="consumer1">
+            <script type="text/javascript">
+                $(function () {
+                    postscribe('#consumer1', '<script src="https://gist.github.com/shaikezam/a29ad609c0be4b0bce15c8b0305fcb72.js"><\/script>');
+                });
+            </script>
+        </div>
+        <li><code>Consumer</code> by lambda expressions:</li>
+        <div id="consumer2">
+            <script type="text/javascript">
+                $(function () {
+                    postscribe('#consumer2', '<script src="https://gist.github.com/shaikezam/78ca46bc7beef6dd2e4d28c035cbd859.js"><\/script>');
+                });
+            </script>
+        </div>
+        <li>Chain Consumers with <code>andThen()</code> method:</li>
+        <div id="consumer3">
+            <script type="text/javascript">
+                $(function () {
+                    postscribe('#consumer3', '<script src="https://gist.github.com/shaikezam/e8139289a6bd1ed95c1df17e4b9cee39.js"><\/script>');
+                });
+            </script>
+        </div>
+    </ul>
+    <p>For all above examples, the output will be <code>HELLO SHAIKEZAM.COM</code>.</p>
+    <h3>BiConsumer interface</h3>
+    <p>The <code>BiConsumer</code> interface is similar to a <code>Consumer</code> interface and accepts two input
+        parameters (<code>T</code> the 1st parameter and <code>U</code> the 2nd paramater) and does not return any result.
+    </p>
+    <div id="consumer4">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#consumer4', '<script src="https://gist.github.com/shaikezam/976cb412bea15fa1abc5174c7901f06b.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>And once again, the output will be&nbsp;<code>HELLO SHAIKEZAM.COM</code>.</p>
+</div>

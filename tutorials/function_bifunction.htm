@@ -1,0 +1,113 @@
+<hr>
+<h2>Function & BiFunction Java 8 API</h2>
+<i>30-01-2022 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    <h3>Functional Interfaces</h3>
+    <h4>Before Java 8</h4>
+    <p>As an Object-Oriented Programming language, <code>Java</code> has declared almost everthing in the
+        <code>Object</code> model (except for some of the primitive data types and primitive methods).
+    </p>
+    <p>Functions in Java were only a part of a class and to use them we need to use the <code>Class</code> or to
+        create an instance of it.</p>
+    <h4>From Java 8 onwards</h4>
+    <p>Since <code>Java</code> 8, <code>Java</code> brought us the interface <code>FunctionalInterface</code>:</p>
+    <p>Conceptually, a functional interface has exactly one abstract method, however, they can include any quantity of
+        default and static methods.</p>
+    <p>Note that instances of functional interfaces can be created with:</p>
+    <ul>
+        <li>Lambda expressions.</li>
+        <li>Method references</li>
+        <li>Constructor references.</li>
+    </ul>
+    <p>The purpose of <code>FunctionalInterface</code> is to make code more readable, clean, and straightforward.</p>
+    <p>There are many types of <code>FunctionalInterface</code>; <code>Runnable</code>, <code>Callable</code> and so on.
+    </p>
+    <p>In this tutorial we will learn about the <code>Function</code> &amp;
+        <code>BiFunctionr FunctionalInterface</code>.
+    </p>
+    <h3>Function interface</h3>
+    <p>A <code>FunctionalInterface</code> that can be used when creating <code>lambda expressions</code> or
+        <code>method references</code>.
+    </p>
+    <p>The <code>Function FunctionalInterface</code> has several methods:</p>
+    <ul>
+        <li>functional method: <code>apply()</code> - Applies this function to the given argument.<code></code>
+            <div id="function1">
+                <script type="text/javascript">
+                    $(function () {
+                        postscribe('#function1', '<script src="https://gist.github.com/shaikezam/ed2a14a36b135080f75efd63621315ef.js"><\/script>');
+                    });
+                </script>
+            </div>
+            <p>Will print 18.0 to the console.</p>
+        </li>
+        <li><code>compose()</code> - Returns a composed function that first applies the function to its input, and then
+            applies this function to the result.
+            <div id="function2">
+                <script type="text/javascript">
+                    $(function () {
+                        postscribe('#function2', '<script src="https://gist.github.com/shaikezam/f99f89951f0c266590f765ab404b96f3.js"><\/script>');
+                    });
+                </script>
+            </div>
+            <p>Will print 36.0 to the console.</p>
+        </li>
+        <li><code>andThen()</code> - Returns a composed function that first applies this function to its input, and then
+            applies the function to the result.
+            <div id="function3">
+                <script type="text/javascript">
+                    $(function () {
+                        postscribe('#function3', '<script src="https://gist.github.com/shaikezam/88618278986fd635f3709d6d3a7a8e65.js"><\/script>');
+                    });
+                </script>
+            </div>
+            <p>Will print 18.0 to the console.</p>
+        </li>
+        <li><code>static identity()</code> - Returns a function that always returns its input argument.</li>
+        <div id="function4">
+            <script type="text/javascript">
+                $(function () {
+                    postscribe('#function4', '<script src="https://gist.github.com/shaikezam/195c4fb74e7c77d314cc8e448b22ad5f.js"><\/script>');
+                });
+            </script>
+        </div>
+        <p>Will print
+            <code>{e514294e-3ed5-4173-b6f5-b2aca1f55400={id=e514294e-3ed5-4173-b6f5-b2aca1f55400, name='shaikezam'}, 76769999-c2a2-4ca0-9675-d23109cc4e5a={id=76769999-c2a2-4ca0-9675-d23109cc4e5a, name='koo'}}</code>
+            to the console.
+        </p>
+    </ul>
+    <p>In case we want to create a function that get, or return, or even both <code>primitive</code> types, we can use
+        a pre defined function such as:</p>
+    <ul>
+        <li><code>IntFunction</code> - input is <code>int</code> argument and the output type is parameterized.</li>
+        <li><code>ToIntFunction</code> - input is parameterized argument and the output type is an int.</li>
+        <li><code>DoubleToIntFunction</code> - both input &amp; output are primitive types.</li>
+    </ul>
+    <p>There are functions for almost all types.</p>
+    <h3>BiFunction interface</h3>
+    <p>Similar to <code>Function</code>, a <code>FunctionalInterface</code> that's represents a function that accepts
+        two arguments and produces a result. This is the two-arity specialization of Function.</p>
+    <p>The BiFunction interface expose two function:</p>
+    <ul>
+        <li>functional method: <code>apply()</code> - Applies this function to the given arguments.</li>
+        <div id="function5">
+            <script type="text/javascript">
+                $(function () {
+                    postscribe('#function5', '<script src="https://gist.github.com/shaikezam/2f142bf5812e2dc4a4a7c4f665f627a1.js"><\/script>');
+                });
+            </script>
+        </div>
+        <p>Will print 36.0 to the console.</p>
+        <li><code>andThen()</code> - Returns a composed function that first applies this function to its input, and then
+            applies the after function to the result.</li>
+        <div id="function6">
+            <script type="text/javascript">
+                $(function () {
+                    postscribe('#function6', '<script src="https://gist.github.com/shaikezam/bda55dbfbfaa113c4bfb0fb3a3b600d4.js"><\/script>');
+                });
+            </script>
+        </div>
+        <p>Will print The result is 36.0 to the console.</p>
+    </ul>
+</div>

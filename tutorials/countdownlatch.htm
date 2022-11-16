@@ -1,0 +1,41 @@
+<hr>
+<h2>CountDownLatch usages</h2>
+<i>22-11-2021 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    <p>Basically a counter which validate all workers <code>threads</code> are done and the main <code>thread</code> who
+        created those, are no longer block and can continue.</p>
+    <p>Once we create a <code>CountDownLatch</code> with the number of the parallel <code>threads</code> that will work
+        together we will call to <em><code>countdown()</code> </em>upon finish the task will decrease the number of
+        remaining threads.</p>
+    <h3>Wait for all threads to complete</h3>
+    <p>We will create simple application that upon each worker <code>thread</code> we will print to console and when all
+        threads are
+        done, we will notify it.</p>
+    <div id="a">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#a', '<script src="https://gist.github.com/shaikezam/603f99dce587dee39adb45ecdfd9845b.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>We will get the next output:</p>
+    <div id="b">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#b', '<script src="https://gist.github.com/shaikezam/94d7f03833b0061be7f95e933a04ca06.js"><\/script>');
+            });
+        </script>
+    </div>
+    <h3><code>awaite</code> with timeout</h3>
+    <p>In some scenarios, we would like to terminate the <code>CountDownLatch</code> without wating for all threads to
+        finish and to avoid blocking the caller thread for ever.</p>
+    <p>To do so, we can use the <code>await(long timeout, TimeUnit unit)</code> function.</p>
+    <div id="c">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#c', '<script src="https://gist.github.com/shaikezam/4adecb9a9825505fefcedb1bcc4efd90.js"><\/script>');
+            });
+        </script>
+    </div>
+</div>

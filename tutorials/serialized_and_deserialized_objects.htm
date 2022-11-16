@@ -1,0 +1,118 @@
+<hr>
+<h2>Serialized And Deserialized Objects</h2>
+<i>26-12-2019 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    Java have a build-in mechanism that can migrate objects to stream of bytes and store them in a file and vice
+    versa.<br>
+    Those abilities called <code>Serialization</code> and <code>Derialization</code>.<br>
+    <code>Serialization</code> and <code>Derialization</code> are platfrom independent, that means that we can
+    <code>serialize</code> in one platfrom and <code>deserialize</code> in a different platform.<br>
+    In order to use this mechanism:<br>
+    <ul>
+        <li>The desired object must implements the <code>java.io.Serializable</code> interface.<br></li>
+        <li>All the fields in the desired object must implements the <code>Serializable</code> interface.<br></li>
+        <li>If there is field who doesn't implements the <code>Serializable</code> interface he must marked as
+            <code>transient</code>.<br>
+        </li>
+    </ul>
+    Plese notice, <code>Serializable</code> interface is a <code>marker interface</code>:<br>
+    <i><q>An empty interface (no field or methods) that provides run-time type information about objects</q></i>.<br>
+    We will demostrate this mechanism using simple <code>Course</code> class:<br>
+    <div id="properties1">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#properties1', '<script src="https://gist.github.com/shaikezam/2d5fd803824471608c1a77395b73d9c8.js"><\/script>');
+            });
+        </script>
+    </div>
+    <h3>Serializing</h3>
+    For serializing an object we need to use the class <code>java.io.ObjectOutputStream</code>:<br>
+    <div id="properties2">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#properties2', '<script src="https://gist.github.com/shaikezam/cd58c3c426e3752a1b3672aacfe62799.js"><\/script>');
+            });
+        </script>
+    </div>
+    <h3>Deserializing</h3>
+    For deserializing an object we need to use the class <code>java.io.ObjectInputStream</code>:<br>
+    <div id="properties3">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#properties3', '<script src="https://gist.github.com/shaikezam/c47e35b815e8acfd84982af9e452a38f.js"><\/script>');
+            });
+        </script>
+    </div>
+    If we print the <code>javaCourse</code> we see that the <code>maxStudentsCapacity</code> property is 0 altough we
+    set it to 50.<br>
+    That because this field marked as <code>transient</code> and it didn't write to the<code>course.dat</code> file, and
+    0 is the default int value.<br>
+    <h3>Serializing Version Compatibility</h3>
+    If we take a look on a very reasonable scenario in-which we want to add to our <code>Course</code> class a
+    <code>courseYear</code> property that will holds the year of the course:<br>
+    <div id="properties4">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#properties4', '<script src="https://gist.github.com/shaikezam/281e36d0218c662400ecc55b0bb9a4cc.js"><\/script>');
+            });
+        </script>
+    </div>
+    And now, lets try to <code>Deserializing</code> again the <code>course.dat</code> file again, we will get:<br>
+    <div id="properties5">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#properties5', '<script src="https://gist.github.com/shaikezam/ae943f334965bd5b4589c95cb5f8e3d3.js"><\/script>');
+            });
+        </script>
+    </div>
+    We get an execption because the <code>Course</code> class definition we trying to <code>Deserializing</code> is very
+    different from the newley class definition.<br>
+    One class has the serial version UID <code>-3353359511573316605</code>, while the other class has the serial version
+    UID <code>498427908211648568</code>, and that why we get this execption.<br>
+    The serial version UID it's a private, static final, long class property that indicates version compatibility (all
+    version must have the same value), and it can be calculated through two ways:<br>
+    <ul>
+        <li><b>Runtime</b> - can be calculated by the properties name, interfaces, members and types - will cause to
+            incompatible versions.</li>
+        <li><b>Developer</b> - can be calculated by the IDE or the serialver tool.</li>
+    </ul>
+    To overcome the <code>InvalidClassException</code> issue there are two ways:<br>
+    <ul>
+        <li><b>IDE solution</b> - manually add in the class <code>private static final long serialVersionUID</code> and
+            let the IDE generate value.</li>
+        <li><b>Serialver solution</b> - nevigate to the root folder of <code>Course.class</code> folder and open a cmd
+            and type <code>serialver -show</code> and a new window will open:</li>
+        <img src="/style/serialver.png" alt="serialver" title="serialver"><br>
+        we need to pass the full class name: <code>com.company.Course</code> and click show:<br>
+        <img src="/style/serialverwithvalue.png" alt="serialver" title="serialver">
+    </ul>
+    And now, if we <code>Deserializing</code> again the <code>course.dat</code> file we will get:<br>
+    <div id="properties6">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#properties6', '<script src="https://gist.github.com/shaikezam/c519f602762de8fdae77837d14e0053a.js"><\/script>');
+            });
+        </script>
+    </div>
+    Pelase noticed that <code>courseYear</code> value is <code>'null'</code>, because this is the default value of
+    <code>String</code>, let's understand how we can override it.
+    <h3>Customizing Serializing</h3>
+    We can Customizing <code>Serializing</code> and <code>Deserializing</code> using<code>writeObject</code> and
+    <code>readObject</code> methods in which called through reflection.<br>
+    Can be very useful we we want to change the format of the <code>Serializing</code> or to support for older versions
+    of serialized classes.<br>
+    <div id="properties7">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#properties7', '<script src="https://gist.github.com/shaikezam/d82a0e2cfed3cc166a8126c44cfa6d56.js"><\/script>');
+            });
+        </script>
+    </div>
+    <h4>readObject</h4>
+    To override the values in which returns from the <code>Deserializing</code> we need to get the fields and pass as
+    the 2nd argument the default values.<br>
+    <h4>writeObject</h4>
+    Very useful for custom <code>Serializing</code> if we want to override some property before we
+    <code>Serializing</code>.<br>
+</div>

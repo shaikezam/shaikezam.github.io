@@ -1,0 +1,178 @@
+<hr>
+<h2>Machine to Machine authentication using AWS API Gateway, AWS Cognito & OAuth2.0 using Google OAauth Java Client</h2>
+<i>10-05-2022 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    <h3>What is it AWS Cognito</h3>
+    <p>Amazon Cognito provides authentication, authorization, and user management for your web and mobile apps. Your
+        users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon,
+        Google or Apple.</p>
+    <p>The two main components of Amazon Cognito are user pools and identity pools. User pools are user directories that
+        provide sign-up and sign-in options for your app users. Identity pools enable you to grant your users access to
+        other AWS services. You can use identity pools and user pools separately or together.</p>
+    <p>This guide will cover how to use <code>Cognito</code> to do machine to machine authentication.</p>
+    <p>In machine to machine communication, the server or machine needs to authenticate itstelf with the other machine
+        by providing some authorizes to request the resources.</p>
+    <p>This was standardized in OAuth2.0 protocol and is known as <code>Client_Credentials </code>Grant.</p>
+    <p>User can use <code>Cognito</code> to implement this in a simple and efficient way, also, <code>Cognito</code>
+        exposed all relevant APIs via the official AWS Java SDK.</p>
+    <h4><span style="text-decoration: underline;"><code>Cognito</code> glossary</span></h4>
+    <ul>
+        <li><strong>User Pools</strong> - A user pool is a user directory in Amazon Cognito.</li>
+        With a user pool, your users can sign in to your web or mobile app through Amazon Cognito.&nbsp;
+        <li><strong>App Client</strong> - An app is an entity within a user pool that has permission to call
+            unauthenticated API operations. Unauthenticated API operations are those that do not have an authenticated
+            user. When you create an app client in Amazon Cognito, you can pre-populate options based on the standard
+            OAuth client types <strong>public client</strong> and <strong>confidential client</strong>. Configure a
+            confidential client with a <strong>client secret</strong>. A <strong>client secret</strong> is a fixed
+            string that your app must use in all API requests to the app client. Your app client must have a
+            <strong>client secret</strong> to perform <code>client_credentials</code> grants. You can't change secrets
+            after you create an app. You can create a new app with a new secret if you want to rotate the secret. You
+            can also delete an app to block access from apps that use that app client ID.
+        </li>
+        <li><strong>Domain</strong> - Can be create only 1 per user pool. Used to host the signup/login/challenge pages
+            for the auth for the application. Using the domain, we can request an access token for our app.</li>
+        <li><strong>Resource Server</strong> - A resource server is a server for access-protected resources. It handles
+            authenticated requests from an app that has an access token. A&nbsp;<em>scope</em>&nbsp;is a level of access
+            that an app can request to a resource.</li>
+    </ul>
+    <h3>Our use case</h3>
+    <p>For machine to machine authentication you need to use&nbsp;<strong><em>client_credentials</em></strong>&nbsp;auth
+        grant by setting up app clients in your user pool.</p>
+    <p>In our example, we will have a Java client that communicate with <code>AWS API Gateway</code> (Via REST) that
+        trigger a <code>AWS Lambda function</code>.</p>
+    <p>The API is protected by <code>Lambda authorizer</code>&nbsp;that verify the Cognito access token
+        (<code>JWT</code>) and allow \ deny if it's contains\not contains the right claims.</p>
+    <p>We fetch the access token (JWT) using the <a href="https://github.com/googleapis/google-oauth-java-client">Google
+            OAuth Client Library for Java</a>:</p>
+    <p style="padding-left: 40px;"><em>Written by Google, the Google OAuth Client Library for Java is a powerful and
+            easy-to-use Java library for the
+            OAuth 1.0a and OAuth 2.0 authorization standards.</p></em>
+    <p style="padding-left: 40px;"><em>The Google OAuth Client Library for Java is designed to work
+            with any OAuth service on the web, not just with Google APIs.</p></em>
+    <p style="padding-left: 40px;"><em>It is built on the Google HTTP Client Library for
+            Java.</p></em>
+    <img src="/style/cognito_example.png" class="center-img"><br>
+    <h3>Client Side</h3>
+    <p>We will create a <code>Spring Boot</code> app that create all necessary <code>Cognito</code> entities (via REST).
+    </p>
+    <p>Also, this app will exposed another API for fetch the access token (<code>JWT</code>).</p>
+    <p>Let's start with the <code>pom.xml</code> file; we have the <code>Spring Boot</code> dependencies,
+        <code>AWS SDK Cognito provider</code> depndency to fetch Cognito entities and the
+        <code>Google OAuth Client Library for Java</code> depndency to fetch the access token from the Cognito.
+    </p>
+    <p>To make the client communicate with the <code>AWS Cognito</code>, we need to pass the program two JVM args -
+        <code>aws.accessKeyId</code> &amp; <code>aws.secretAccessKey</code>.
+    </p>
+    <div id="cognito_h_1">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#cognito_h_1', '<script src="https://gist.github.com/shaikezam/a009894e21241e2b9118a60078a93ab0.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Next, we will create the controller that contains all the relevant API's:</p>
+    <div id="cognito_h_2">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#cognito_h_2', '<script src="https://gist.github.com/shaikezam/41be56a8f7f166f8cebbdf073b957c3d.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>We have several APIs:</p>
+    <ol>
+        <li><code>POST -&gt; /web/api/user_pools</code> - for create new user pool and returns the created user pool's
+            id.</li>
+        <li><code>POST -&gt; /web/api/resource_server</code> - for create resource server with relevant scope for a
+            given user pool's id.</li>
+        <li><code>POST -&gt; /web/api/app_client</code> - for create app client with relevant resource server identifier
+            &amp; scope name for a given user pool's id and returns the created client ID &amp; client secret (need to
+            save them).</li>
+        <li><code>POST -&gt; /web/api/domain</code> - for create domain for a given user pool's id (domain name must be
+            unique among all domains in Cognito).</li>
+        <li><code>POST -&gt; /web/api/access_token</code> - for create access token (<strong>JWT</strong>) for
+            a given domain URL (i.e. <code>https://{DOMAIN_NAME}.auth.{REGION}.amazoncognito.com:443/oauth2</code>) and client ID with client secret as a body.</li>
+    </ol>
+    <p>The <code>CognitoAppClientDTO</code> that contains clientID and client secret:</p>
+    <div id="cognito_h_3">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#cognito_h_3', '<script src="https://gist.github.com/shaikezam/fa2810a1cc2a32aa9de9679b7528367f.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Final step for the client is the <code>AWSCognitoService</code> that execute calls to AWS Cognito using the
+        <code>CognitoIdentityProviderClient</code> &amp; Google OAuth2.0 library:
+    </p>
+    <div id="cognito_h_4">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#cognito_h_4', '<script src="https://gist.github.com/shaikezam/5c3dfbf72b11a2a2541e05fafd85ce42.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>All calls to the Cognito are executed with <code>CognitoIdentityProviderClient</code> (need to create and destroy
+        it, we do it with the help of Spring bean lifecycle interface hooks).</p>
+    <p>We fetch the access token with the help of <code>ClientCredentialsTokenRequest</code> from Google OAuth2.0 client
+        library.</p>
+    <h3>Server Side</h3>
+    <p>We will create two Lambda functions:</p>
+    <ul>
+        <li>Lambda authorizer - to validate the JWT claims.<br>
+            <code>pom.xml</code> file (please see that we build this as a fat jar with dependencies).<br>
+            Also, we will use <a
+                href="https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt">nimbus-jose-jwt</a> library for
+            process and validate the access token <code>JWT</code>
+            <div id="cognito_h_7">
+                <script type="text/javascript">
+                    $(function () {
+                        postscribe('#cognito_h_7', '<script src="https://gist.github.com/shaikezam/b459f52ab36db645e6b3d9e0d44d5702.js"><\/script>');
+                    });
+                </script>
+            </div>
+            Handler class will return simple String message:
+            <div id="cognito_h_8">
+                <script type="text/javascript">
+                    $(function () {
+                        postscribe('#cognito_h_8', '<script src="https://gist.github.com/shaikezam/a4f0f07f9145eb6ea899669ede8ccd05.js"><\/script>');
+                    });
+                </script>
+            </div>
+            Need to remeber to add the <code>USER_POOL_ID</code> that we created as a Lambda environment variable.<br>
+            <code>JWT Utils</code> for validate and parse the JWT:
+            <div id="cognito_h_9">
+                <script type="text/javascript">
+                    $(function () {
+                        postscribe('#cognito_h_9', '<script src="https://gist.github.com/shaikezam/c8c3ade28063dc4f06fab3f7009b9734.js"><\/script>');
+                    });
+                </script>
+            </div>
+        </li>
+    </ul>
+    <ul>
+        <li>Simple <code>NodeJS</code> Lambda - that connected to the AWS API GW endpoint.<br>
+            <div id="cognito_h_5">
+                <script type="text/javascript">
+                    $(function () {
+                        postscribe('#cognito_h_5', '<script src="https://gist.github.com/shaikezam/213ca00d509b88e21f473ed3fc835a37.js"><\/script>');
+                    });
+                </script>
+            </div>
+        </li>
+    </ul>
+    <p>Next, we will create our API GW endpoint in which protected by our Lambda authorizer:</p>
+    <img src="/style/awsapigw/1.png" class="img-border"><br>
+    <img src="/style/awsapigw/2.png" class="img-border"><br>
+    <img src="/style/awsapigw/3.png" class="img-border"><br>
+    <img src="/style/awsapigw/4.png" class="img-border"><br>
+    <p>Next, we will add out authorizer to the endpoint's method request (browser needs to be refresh).</p>
+    <img src="/style/awsapigw/5.png" class="img-border"><br>
+    <p>Deploy the endpoint with relevant stage and verify that request this endpoint will return
+        <code>401 Unauthorized</code>:</p>
+    <img src="/style/awsapigw/6.png" class="img-border"><br>
+    <p>If we add the access token (JWT), from the Cognito that we created before, we will get:</p>
+    <img src="/style/awsapigw/7.png" class="img-border"><br>
+    <h3>Source code</h3>
+    <a href="https://github.com/shaikezam/spring-boot-aws-cognito-helper">Spring boot Cognito Helper</a><br>
+    <a href="https://github.com/shaikezam/lambda-cognito-authorizer">Lambda Cognito Authorizer</a>
+</div>

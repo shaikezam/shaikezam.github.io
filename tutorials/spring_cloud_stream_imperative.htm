@@ -1,0 +1,125 @@
+<hr>
+<h2>Spring Cloud Stream Imperative Programming</h2>
+<i>13-12-2021 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    <h3>Microservices Asynchronous Communication</h3>
+    <p>There are two concepts regarding communication between microservices:</p>
+    <ol>
+        <li>Synchronized - via <code>HTTP(S)</code> over <code>REST</code> for example.</li>
+        <li>Asynchronous (or, Event Driven Communication) - via message brokers for example (Kafka\RabbitMQ...)</li>
+    </ol>
+    <p>With event driven communication, we can send from P2P or via pub\sub any events we want, for example: state
+        changed or content.</p>
+    <h3>Spring Cloud Stream</h3>
+    <p>Among the many projects within the <a href="https://spring.io/projects/spring-cloud">Spring Cloud Project</a>,
+        the <a href="https://spring.io/projects/spring-cloud-stream">Spring Cloud Stream</a> library provided the
+        developer an abstraction\wrapper implementation on top of the messaging brokers.</p>
+    <p>That means that <code>Spring</code> application could:</p>
+    <ol>
+        <li>Conenct to the message brokers with minimal configurations.</li>
+        <li>Replace the message broker with minimal modifications.</li>
+    </ol>
+    <h4>RabbitMQ</h4>
+    <p>We will not cover and learn about the <code>RabbitMQ</code> message broker, but it widely popular lightweight
+        messaging platform.</p>
+    <p>We will install via docker command (if you don't want use docker, feel free to install it as you wish)</p>
+    <div id="spring_cloud_stream_imper_1">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_1', '<script src="https://gist.github.com/shaikezam/c42bb3ad44202108d7a6afe50b5451e0.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Using this command, we installed (as <code>container</code>) a <code>RabbitMQ</code> <code>docker</code> image
+        with management GUI and it will be accessible via <code>localhost:15672</code> with username <code>guest</code>
+        and password <code>guest</code> (those are the defaults).</p>
+    <h4>Spring Cloud Stream Concepts</h4>
+    <ul>
+        <li><span style="text-decoration: underline;">Bindings</span> - an interface in which we declare our IO
+            channels.</li>
+        <li><span style="text-decoration: underline;">Binder</span> - the message broker platform; in our case,
+            <code>RabbitMQ</code>
+        </li>
+        <li><span style="text-decoration: underline;">Output</span> - An interface method taht decare with
+            <code>@Output</code>, it takes an <code>Object</code>, serializes it and then publishes it to the output
+            channel.
+        </li>
+        <li><span style="text-decoration: underline;">Input</span> - Used to consume message from queue.</li>
+        <li><span style="text-decoration: underline;">Channel</span> - Represents an input\output pipe between the our
+            application and the message broker.</li>
+    </ul>
+    <p>Our simple application will be a <code>Spring Boot</code> application that publish and consume tasks.</p>
+    <p>The maven project will be defined in the <code>pom.xml</code>:</p>
+    <div id="spring_cloud_stream_imper_2">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_2', '<script src="https://gist.github.com/shaikezam/a982686c80f004f4b7210085bcc34438.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>As we can see, we add following depndency in which responsible to the binder that was mentioned above.</p>
+    <div id="spring_cloud_stream_imper_3">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_3', '<script src="https://gist.github.com/shaikezam/9f4597b23a37920e10280cb45611bb1c.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Then, let's create our model: <code>Task</code></p>
+    <div id="spring_cloud_stream_imper_4">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_4', '<script src="https://gist.github.com/shaikezam/c98187a0562e2c7ce439febee691af1e.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Now we will define our bindings interface (which responsible the Input\Output methods):</p>
+    <div id="spring_cloud_stream_imper_5">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_5', '<script src="https://gist.github.com/shaikezam/cba215fd16562795967af78837740062.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>We define the output channel named as <code>task-channel-out</code> and the input channel named as
+        <code>task-channel-in</code>
+    </p>
+    <p>Then, we will define our <code>application.properties</code> file:</p>
+    <div id="spring_cloud_stream_imper_6">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_6', '<script src="https://gist.github.com/shaikezam/90c786c761b9c8573a24cf5c903f56b2.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>We set our <code>RabbitMQ</code> server properties and associate between the channel and the queue to be used</p>
+    <p>Last step, we will create our <code>Spring Boot</code> Application class with the relevant annotations:</p>
+    <div id="spring_cloud_stream_imper_7">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_7', '<script src="https://gist.github.com/shaikezam/b739237e32a0416786f224b73153865a.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Basically, our application run as a scheduled app in which each 1 seconds, it will publish to the queue a random
+        Task instance. let's do quick explanation on the new annotations.</p>
+    <ul>
+        <li><code>@EnableBinding</code> annotation must point to the binding interface.</li>
+        <li><code>@StreamListener</code> must point to the input channel which we define in the binding interface.</li>
+    </ul>
+    <p>Now, if we run the application we will see in the console the prints upon tasks producing and consuming:</p>
+    <div id="spring_cloud_stream_imper_8">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#spring_cloud_stream_imper_8', '<script src="https://gist.github.com/shaikezam/d105f5960b91b02992f26e3ca682a6b3.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>In new versions of <code>Spring Cloud Stream</code> we noticed that some of the annotations are <a
+            href="https://spring.io/blog/2019/10/17/spring-cloud-stream-functional-and-reactive">deprecated</a>.</p>
+    <p>In the next artical we will using <code>Spring Cloud Stream</code> with <code>Functional Programing</code></p>
+    <p>Feel free to look in the <a
+            href="https://github.com/shaikezam/spring-cloud-stream-rabbitmq-imperative-programming">source code</a> and
+        try it your own.</p>
+</div>

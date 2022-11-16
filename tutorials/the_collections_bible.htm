@@ -1,0 +1,45 @@
+<hr>
+<h2>The Collections Bible</h2>
+<i>05/01/2020 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    <h3>Are arrays really bad?</h3>
+    First of all we need to ask ourself, why do we need to use collections? we all know that <code>Java</code> provides us Arrays.<br>
+    <ul>
+        <li>toString - In case we want to print the array, we get a weired text and not the <code>toString</code> output.</li>
+        <li>Add new elements - If we trying to add element to full-capacity array, we will have <code>java.lang.ArrayIndexOutOfBoundsException</code> exepction.</li>
+    </ul>
+    There are many more issues, but the point is that implementing data structures can be hard, and can have many flavours:<br>
+    Collections that have flavour of ordering or uniqueness oe even paris of key and value, and the cool thing is that <code>Java Platform</code> supply us this boilerplate code.<br>
+    <h3>It's all about collections</h3>
+    When we speak about collection we must distinguse between interfaces and their implementations.<br>
+    <ul>
+        <li>Interfaces - An abstracten \ specification that represent the specific collection operations.</li>
+        <li>Implementations - The interface's implementation that represent a specific data structure.</li>
+    </ul>
+    <div style="display: flex; justify-content: center;">
+        <img src="/style/collections.png" alt="Collections Tree" title="Collections Tree"><br>
+    </div>
+    All the collections extends the <code>Collection</code> interface, but actually, it extends the <code>Iterable</code> interface which mean taht we can loop over the collection and do actions.<br>
+    Those are the actions of the <code>Collection</code> interface:<br>
+    <div ng-include="'/tutorials/collections/collections_interface.htm'"></div>
+    <blockquote><i>Pay attention; some of the function accepts <code>Object</code>, while the others accepts<code>Element</code>, that because</i></blockquote>
+    <h3>Collecion with ordering: List</h3>
+    A collection of iterate order in which each element represent by an index (<code>0...n</code>).<br>
+    The <code>List</code> interface extends the <code>Collection</code> interface and adds some function to it:<br>
+    <div ng-include="'/tutorials/collections/list_interface.htm'"></div>
+    Regarding the <code>subList</code>, it return a <code>view</code> which means that if you modify the sub list, it will modify the original list as well.<br>
+    <h4><u>List Implementation: ArrayList</u></h4>
+    The most popular and the most commonly used collection.<br>
+    It's list that represent by an array, that's mean that it's has a fixed size, if we try to add element and the array is full, we need to <code>resize</code> the array.<br>
+    We want to avoid from resizing the aray each time because it's expensive oporation, the <code>ArrayList</code> doubles the size of that array when it needs to.<br>
+    <h4><u>List Implementation: LinkedList</u></h4>
+    A doubly-linked-list that means taht each element in the linkedlist contains a pointer to the next and the previous element.<br>
+    That goos for us when we want to add and remove elements in the middle of the list, in <code>ArrayList</code> we need to suffle the list upon each oporation, while in <code>LinkedList</code> we don't need to worry about this.<br>
+    On the other hand, it's slower to iterate the over the list because we need to jump over all the pointers untill we reach to the node.<br>
+    <h4><u>Comparing</u></h4>
+    So it can be said that <code>ArrayList</code> can be the default list implementation.<br>
+    Also, ArrayList use much less memory for the same data amount than LinkedList and this memory is organized sequentially. This essentially decreases CPU cache.<br>
+    <Code>LinkedList</Code> has bad performance for manya ctions, but we can use it when adding and removing a lot of elements from the start or the middle of the list.<br>
+    <h3>Collecion with uniqueness: Set</h3>
+</div>

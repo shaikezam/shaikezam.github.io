@@ -1,0 +1,38 @@
+.imgwrapper {
+   width: 5%;
+   height: 5%;
+   border: 1px solid #ddd;
+   border-radius: 4px;
+}
+div.text {
+  font-size: 100% !important;
+}
+.navbar-default .navbar-brand {
+    color: #FF5733;
+}
+.navbar-default .navbar-brand:visited {
+  color: #FF5733;
+}
+.navbar-default .navbar-brand:focus {
+  color: #FF5733;
+}
+.navbar-default .navbar-brand:hover {
+  color: #FF5733;
+}
+.navbar-default .navbar-brand:active {
+  color: #FF5733;
+}
+td.fitwidth {
+  width: 1px;
+  white-space: nowrap;
+}
+ul, ol, li {
+  list-style: outside !important;
+}
+body, p {
+  line-height: 1.8 !important;
+}
+
+.img-border {
+  border: 1px solid black;
+}

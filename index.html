@@ -1,1 +1,62 @@
-Hello World
+<!DOCTYPE html>
+<html>
+<script src="../scripts/angular/angular.min.js"></script>
+<script src="/scripts/angular-route/angular-route.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../scripts/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="./style/style.css">
+<link rel="icon" href="./favicon.ico">
+<script src="/scripts/jquery/dist/jquery.min.js"></script>
+<script src="../scripts/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/js/postscribe.min.js"></script>
+<!--<script src="/js/profile.js" async defer type="text/javascript"></script>
+
+<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>-->
+
+<head>
+	<title>Software Development Tech Blog</title>
+	<base href="/" />
+	<meta name="fragment" content="!">
+	<meta charset="UTF-8">
+	<meta name="description" content="Software Development Tech Blog">
+	<meta name="keywords" content="Java, Cloud, Code, Programming, JDK, SaaS">
+	<meta name="author" content="Shai Zambrovski">
+</head>
+
+<body>
+
+	<div ng-app="myApp" ng-controller="mainCtrl">
+		<div class="container">
+			<div class="page-header">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<a class="navbar-brand" a href="/">shaikezam.com</a>
+							<a class="navbar-brand" a href="tutorials">Tutorials</a>
+						</div>
+
+					</div>
+				</nav>
+				<div ng-view></div>
+				<div id="a">
+					<script type="text/javascript">
+						$(function () {
+							postscribe('#a', '<script src="https://platform.linkedin.com/badges/js/profile.js"><\/script>');
+						});
+					</script>
+				</div>
+				<div ng-hide="SharedResourcesFactory.isChecked" class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="light"
+				data-type="HORIZONTAL" data-vanity="shai-zambrovski-112505a5" data-version="v1"><a
+					class="badge-base__link LI-simple-link"
+					href="https://il.linkedin.com/in/shai-zambrovski-112505a5?trk=profile-badge"></a></div>
+
+			</div>
+			<p><small>All rights reserved to Shai Zambrovski 2019-2022 &copy;</small></p>		
+		</div>
+	</div>
+
+	<script src="/js/script.js"></script>
+</body>
+
+</html>
