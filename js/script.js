@@ -61,7 +61,7 @@
 				templateUrl: "about.html",
 				controller: "mainCtrl"
 			}).when("/tutorials", {
-				templateUrl: "tutorials.html",
+				templateUrl: "shaikezam.github.io/tutorials.html",
 				controller: "tutorialsController",
 			}).when("/serialized_and_deserialized_objects", {
 				templateUrl: "tutorials/serialized_and_deserialized_objects.htm",
