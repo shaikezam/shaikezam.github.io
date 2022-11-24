@@ -52,11 +52,21 @@
 	});
 
 	app.config(function ($routeProvider, $locationProvider) {
-		$locationProvider
+		//$locationProvider
 		//	.html5Mode(true)
-			.hashPrefix('!');
+		//	.hashPrefix('!');
 
 		$routeProvider
+		.when('/main', {
+			templateUrl: '<h1>MAIN</h1>',
+			controller: 'mainCtrl'
+		})  
+		.when('/second', {
+			templateUrl: '<h1>SECOND</h1>',
+			controller: 'mainCtrl'
+		});
+
+		/*$routeProvider
 			.when("/", {
 				templateUrl: "about.html",
 				controller: "mainCtrl"
@@ -111,7 +121,7 @@
 			}).when("/aws_api_gw_java_client_11", {
 				templateUrl: "tutorials/aws_api_gw_java_client_11.htm",
 				controller: "tutorialController"
-			}).otherwise("/");
+			}).otherwise("/");*/
 	});
 
 	app.factory('SharedResourcesFactory', function () {
