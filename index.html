@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp">
 <script src="/js/angular1.4.0.min.js"></script>
 <script src="/js/angular-route1.4.0.min.js"></script>
 <meta charset="utf-8">
@@ -15,9 +15,9 @@
 <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>-->
 
 <script>
-	//if (window.location.protocol != "https:"){
-	//	window.location.protocol = "https";
-	//}
+	if (window.location.protocol != "https:"){
+		window.location.protocol = "https";
+	}
 	</script>
 	<script>document.write('<base href="' + document.location + '" />');</script>
 
@@ -31,9 +31,9 @@
 	<meta name="author" content="Shai Zambrovski">
 </head>
 
-<body>
+<body ng-controller="mainCtrl">
 
-	<div ng-app="myApp" ng-controller="mainCtrl">
+	<div>
 		<div class="container">
 			<div class="page-header">
 				<nav class="navbar navbar-default">
