@@ -1,67 +1,67 @@
 [
     {
         "name": "Handling Properties",
-        "url": "handling_proprties",
+        "url": "#/handling_proprties",
         "dateCreated": "22-12-2019"
     },
     {
         "name": "Serialized And Deserialized Objects",
-        "url": "serialized_and_deserialized_objects",
+        "url": "#/serialized_and_deserialized_objects",
         "dateCreated": "26-12-2019"
     },
     {
         "name": "CountDownLatch usages",
-        "url": "countdownlatch",
+        "url": "#/countdownlatch",
         "dateCreated": "22-11-2021"
     },
     {
         "name": "Lock interface",
-        "url": "lock",
+        "url": "#/lock",
         "dateCreated": "01-12-2021"
     },
     {
         "name": "Spring Cloud Stream Imperative Programming",
-        "url": "spring_cloud_stream_imperative",
+        "url": "#/spring_cloud_stream_imperative",
         "dateCreated": "13-12-2021"
     },
     {
         "name": "Spring Cloud Stream Functional Programming",
-        "url": "spring_cloud_stream_functional",
+        "url": "#/spring_cloud_stream_functional",
         "dateCreated": "22-12-2021"
     },
     {
         "name": "Spring @Qualifier Annotation",
-        "url": "spring_qualifier",
+        "url": "#/spring_qualifier",
         "dateCreated": "12-01-2022"
     },
     {
         "name": "Singleton in Java",
-        "url": "java_singleton",
+        "url": "#/java_singleton",
         "dateCreated": "18-01-2022"
     },
     {
         "name": "Consumer & BiConsumer Java 8 API",
-        "url": "consumer_biconsumer",
+        "url": "#/consumer_biconsumer",
         "dateCreated": "21-01-2022"
     },
     {
         "name": "Supplier Java 8 API",
-        "url": "supplier",
+        "url": "#/supplier",
         "dateCreated": "26-01-2022"
     },
     {
         "name": "Function & BiFunction Java 8 API",
-        "url": "function_bifunction",
+        "url": "#/function_bifunction",
         "dateCreated": "30-01-2022"
     },
     {
         "name": "Split DB migration from services using Kubernetes jobs",
-        "url": "split_db_migrations",
+        "url": "s#/plit_db_migrations",
         "dateCreated": "15-02-2022"
     },
     {
         "name": "Machine to Machine authentication using AWS API Gateway, AWS Cognito & OAuth2.0 using Google OAauth Java Client",
-        "url": "machine_to_machine_cognito_auth",
+        "url": "#/machine_to_machine_cognito_auth",
         "dateCreated": "10-05-2022"
     }
 ]
