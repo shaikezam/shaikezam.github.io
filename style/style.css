@@ -36,12 +36,3 @@ body, p {
 .img-border {
   border: 1px solid black;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-   font-size: initial !important;
-  font-weight: inherit;
-}
