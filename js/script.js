@@ -52,16 +52,15 @@
 	});
 
 	app.config(function ($routeProvider, $locationProvider) {
-		$locationProvider
-			.html5Mode(true)
-			.hashPrefix('!');
+		//$locationProvider
+		//	.html5Mode(true)
+		//	.hashPrefix('!');
 
 		$routeProvider
-			//.when("/", {
-			//	templateUrl: "about.html",
-			//	controller: "mainCtrl"
-			//}).
-			.when("tutorials", {
+			.when("/", {
+				templateUrl: "about.html",
+				controller: "mainCtrl"
+			}).when("tutorials", {
 				templateUrl: "tutorials.html",
 				controller: "tutorialsController",
 			}).when("/serialized_and_deserialized_objects", {
