@@ -1,7 +1,7 @@
 (function (ng) {
 
 	'use strict';
-	var app = angular.module('myApp', ['ngRoute', 'ui.router']);
+	var app = angular.module('myApp', ['ngRoute']);
 	app.controller('mainCtrl', function ($scope, SharedResourcesFactory) {
 		SharedResourcesFactory.isChecked = false;
 		$scope.SharedResourcesFactory = SharedResourcesFactory;
