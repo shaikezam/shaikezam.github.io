@@ -111,7 +111,7 @@
 			}).when("/aws_api_gw_java_client_11", {
 				templateUrl: "tutorials/aws_api_gw_java_client_11.htm",
 				controller: "tutorialController"
-			}).otherwise("/");
+			});//.otherwise("/");
 	});
 
 	app.factory('SharedResourcesFactory', function () {
