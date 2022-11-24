@@ -57,23 +57,10 @@
 		//	.hashPrefix('!');
 
 		$routeProvider
-		.when('/main', {
-			templateUrl: 'main.html',
-			controller: 'mainController'
-		})  
-		.when('/second', {
-			templateUrl: 'second.html',
-			controller: 'secondController'
-		}).when("/tutorials", {
-			templateUrl: "tutorials.html",
-			controller: "tutorialsController",
-		})
-
-		/*$routeProvider
 			.when("/", {
 				templateUrl: "about.html",
 				controller: "mainCtrl"
-			}).when("tutorials", {
+			}).when("/tutorials", {
 				templateUrl: "tutorials.html",
 				controller: "tutorialsController",
 			}).when("/serialized_and_deserialized_objects", {
@@ -124,7 +111,7 @@
 			}).when("/aws_api_gw_java_client_11", {
 				templateUrl: "tutorials/aws_api_gw_java_client_11.htm",
 				controller: "tutorialController"
-			}).otherwise("/");*/
+			}).otherwise("/");
 	});
 
 	app.factory('SharedResourcesFactory', function () {
