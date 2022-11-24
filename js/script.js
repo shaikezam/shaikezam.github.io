@@ -58,13 +58,13 @@
 
 		$routeProvider
 		.when('/main', {
-			template: '<h1>MAIN</h1>',
-			controller: 'mainCtrl'
+			templateUrl: 'main.html',
+			controller: 'mainController'
 		})  
 		.when('/second', {
-			template: '<h1>SECOND</h1>',
-			controller: 'mainCtrl'
-		});
+			templateUrl: 'second.html',
+			controller: 'secondController'
+		})
 
 		/*$routeProvider
 			.when("/", {
