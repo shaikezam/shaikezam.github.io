@@ -1,7 +1,7 @@
 (function (ng) {
 
 	'use strict';
-	var app = angular.module('myApp', ['ngRoute']);
+	var app = angular.module('myApp', ['ngRoute', 'ui.router']);
 	app.controller('mainCtrl', function ($scope, SharedResourcesFactory) {
 		SharedResourcesFactory.isChecked = false;
 		$scope.SharedResourcesFactory = SharedResourcesFactory;
@@ -114,7 +114,7 @@
 			}).otherwise("/");
 	});*/
 
-	app.config(['$stateProvider', function($stateProvider) {
+	app.config(function($stateProvider) {
 		$stateProvider
 		  .state('/', {
 			url: "/",
@@ -137,7 +137,7 @@
 			controller: "tutorialController"
 		  })
   
-	  }])
+	  })
 
 	/*app.config(function ($routeProvider, $locationProvider) {
 		$locationProvider
