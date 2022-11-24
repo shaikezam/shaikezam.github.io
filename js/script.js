@@ -64,6 +64,9 @@
 		.when('/second', {
 			templateUrl: 'second.html',
 			controller: 'secondController'
+		}).when("/tutorials", {
+			templateUrl: "tutorials.html",
+			controller: "tutorialsController",
 		})
 
 		/*$routeProvider
