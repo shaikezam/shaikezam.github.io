@@ -56,7 +56,7 @@
     },
     {
         "name": "Split DB migration from services using Kubernetes jobs",
-        "url": "s#/plit_db_migrations",
+        "url": "#/split_db_migrations",
         "dateCreated": "15-02-2022"
     },
     {
