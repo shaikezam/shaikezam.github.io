@@ -58,11 +58,11 @@
 
 		$routeProvider
 		.when('/main', {
-			templateUrl: '<h1>MAIN</h1>',
+			template: '<h1>MAIN</h1>',
 			controller: 'mainCtrl'
 		})  
 		.when('/second', {
-			templateUrl: '<h1>SECOND</h1>',
+			template: '<h1>SECOND</h1>',
 			controller: 'mainCtrl'
 		});
 
