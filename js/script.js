@@ -52,9 +52,9 @@
 	});
 
 	app.config(function ($routeProvider, $locationProvider) {
-		//$locationProvider
+		$locationProvider
 		//	.html5Mode(true)
-		//	.hashPrefix('!');
+			.hashPrefix('!');
 
 		$routeProvider
 			.when("/", {
