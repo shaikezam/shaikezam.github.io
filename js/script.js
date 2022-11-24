@@ -61,7 +61,7 @@
 			//	templateUrl: "about.html",
 			//	controller: "mainCtrl"
 			//}).
-			when("tutorials", {
+			when("#/tutorials", {
 				templateUrl: "tutorials.html",
 				controller: "tutorialsController",
 			}).when("/serialized_and_deserialized_objects", {
