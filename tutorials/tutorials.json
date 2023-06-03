@@ -63,5 +63,10 @@
         "name": "Machine to Machine authentication using AWS API Gateway, AWS Cognito & OAuth2.0 using Google OAauth Java Client",
         "url": "#/machine_to_machine_cognito_auth",
         "dateCreated": "10-05-2022"
+    },
+    {
+        "name": "Exploring Microservices Architecture with with Spring Cloud: Eureka and API Gateway",
+        "url": "#/springcloud_eureka_apigw",
+        "dateCreated": "02-06-2023"
     }
 ]

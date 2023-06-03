@@ -1,0 +1,225 @@
+<hr>
+<h2>Exploring Microservices Architecture with with Spring Cloud: Eureka and API Gateway</h2>
+<i>02-06-2023 - Shai Zambrovski</i>
+<hr>
+<div class="text">
+    <p>In today's rapidly evolving world of software development, building scalable and resilient applications has
+        become a necessity.</p>
+    <p>Microservices architecture offers a solution by decomposing applications into smaller, independent services that
+        can be developed, deployed, and scaled individually.</p>
+    <p>Two key components in the microservices landscape are <code>Service Registry\Discovery</code> and
+        <code>API Gateway</code>.
+    </p>
+    <h3>Spring Cloud</h3>
+    <p>Spring Cloud is a framework within the Spring ecosystem that provides a set of tools and libraries to simplify
+        the development of distributed systems and microservices-based applications.</p>
+    <p>It aims to address common challenges in distributed computing, such as service discovery, configuration
+        management, load balancing, and more.</p>
+    <p>Spring Cloud leverages popular technologies like Netflix OSS components (e.g., Eureka, Ribbon, Hystrix) and
+        integrates them with Spring Boot to enable developers to easily build scalable, resilient, and cloud-native
+        applications.</p>
+    <p>It promotes the use of microservices architecture and provides a consistent and opinionated approach to building
+        distributed systems using Spring's programming model.</p>
+    <h3>Api Gateway</h3>
+    <p>An API gateway is a server or service that acts as an entry point for all client requests to a microservices
+        architecture.</p>
+    <p>It provides a centralized point of control and management for APIs, allowing for features like authentication,
+        rate limiting, request/response transformation, and routing to multiple services.</p>
+    <p>The API gateway acts as a single interface for clients, abstracting away the complexities of the underlying
+        microservices and providing a unified and consistent API for clients to interact with.</p>
+    <p style="text-align:center;"><img src="/style/api-gateway-2.png"></p>
+    <h4><b>Spring Cloud API Gateway</b></h4>
+    <p>Spring Cloud Gateway is a lightweight and highly customizable API gateway built on top of Spring Boot.</p>
+    <p>It provides a way to route and filter HTTP requests to backend services based on various criteria.</p>
+    <p>The gateway acts as a single entry point for all client requests, enabling centralized control and management of
+        API traffic.</p>
+    <p>It supports dynamic routing, load balancing, and other advanced features to ensure reliability, scalability, and
+        security of the microservices architecture.</p>
+    <p>Spring Cloud Gateway integrates seamlessly with other components of the Spring Cloud ecosystem, such as service
+        discovery and configuration management, making it an ideal choice for building robust and resilient API gateways
+        in distributed systems.</p>
+    <h3>Service Registry\Discovery</h3>
+    <p>In a distributed system composed of numerous services, the ability to locate and communicate with these services
+        is vital. Service registry and discovery play a crucial role in managing the dynamic nature of these distributed
+        architectures.</p>
+    <p>A service registry is a central repository where services can register their location and metadata, allowing
+        other services to discover and interact with them. It serves as a directory or catalog of available services
+        within the system.</p>
+    <p>Service discovery, on the other hand, is the mechanism through which services can locate and connect to other
+        services dynamically. By leveraging the service registry, services can query and retrieve the necessary
+        information to establish communication with their dependencies.</p>
+    <p>Service registry and discovery provide scalability, fault tolerance, and flexibility in distributed systems by
+        enabling seamless service-to-service communication without hard-coded dependencies. They facilitate dynamic
+        updates and scaling of services, making it easier to add, remove, or replace services in the system.</p>
+    <h4><b>Client vs server side service discovery</b></h4>
+    <p>Client service registry refers to the capability of a service or application to dynamically register itself with
+        a service registry and provide its availability and metadata information for other services to discover and
+        interact with.</p>
+    <p>Server service registry refers to the centralized repository or server that maintains the registry of available
+        services, allowing other services to discover and communicate with them dynamically throw a load balancer that
+        has a well-known location.</p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Client-Side Service Discovery</th>
+                <th>Server-Side Service Discovery</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <strong>Pros</strong>
+                    <p>Client services have control over service discovery and can make dynamic routing decisions.</p>
+                    <p>Less dependence on external components or infrastructure.</p>
+                    <p>lient services can easily adapt to changes in service availability.</p>
+                </td>
+                <td>
+                    <strong>Pros</strong>
+                    <p>Centralized service registry provides a single source of truth for service information.</p>
+                    <p>Improved scalability and performance by offloading service discovery to dedicated components.</p>
+                    <p>Easy integration with other infrastructure components like load balancers or API gateways.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Cons</strong>
+                    <p>Increased complexity in client services due to the need for service discovery logic.</p>
+                    <p>Potential network overhead from querying the service registry for service information.</p>
+                    <p>Requires additional effort for handling service registry failures or inconsistencies.</p>
+                </td>
+                <td>
+                    <strong>Cons</strong>
+                    <p>Dependency on the availability and reliability of the central service registry.</p>
+                    <p>Possible performance impact due to the additional network hops to the service registry.</p>
+                    <p>May introduce a single point of failure if the service registry becomes unavailable.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p style="text-align:center;"><img src="/style/client-side-client-registry.png"></p>
+
+                </td>
+                <td>
+                    <p style="text-align:center;"><img src="/style/server-side-client-registry.png"></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h4><b>Spring Cloud Eureka</b></h4>
+    <p>Spring Cloud Eureka is a service registry and discovery server that is part of the Spring Cloud framework. It is
+        inspired by Netflix Eureka, which is an open-source project developed by Netflix as part of their Netflix OSS
+        (Open Source Software) platform.</p>
+    <p>Spring Cloud Eureka implements client-side service discovery by providing a built-in client library that
+        applications can use to register themselves with the Eureka server.</p>
+    <p>In this approach, each service instance (client) is responsible for registering itself with the Eureka server
+        upon startup. The client sends heartbeats to the server to keep its registration information up to date.</p>
+    <p>Other services (clients) that need to consume a particular service can use the Eureka client library to discover
+        the available instances of that service. The Eureka client library provides a simple API to query the Eureka
+        server for service instances based on their registered service ID.</p>
+    <h3>Demo</h3>
+    <p style="text-align:center;"><img src="/style/eureka-apigateway-demo.png"></p>
+    <p>We will introducing the power of Spring Cloud API Gateway and Eurekaour using simple e commerce web application
+        built on Docker Compose.</p>
+    <p>Our application is built with a microservices architecture, allowing seamless communication between services and
+        efficient scaling.</p>
+    <p><span style="text-decoration: underline;">Spring Cloud Eureka server</span>: Provides a service registry and
+        discovery mechanism for seamless communication between microservices.</p>
+    <p>This is the <code>pom.xml</code> file the Eureka server.</p>
+    <p>We use dependency management of spring-cloud and use only the <code>eureka-server</code> package to acts as a
+        service registry.</p>
+    <div id="b">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#b', '<script src="https://gist.github.com/shaikezam/153b04dbef2f105c4e01b609c1591a3a.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>The provided YAML file configures the server port, eureka client host and application name</p>
+    <div id="c">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#c', '<script src="https://gist.github.com/shaikezam/52aefc29e41da137450be2ceff022ba4.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>Last thing, we will set our Application main function the @Enable EurekaServer Spring annotation that enables a
+        service to act as a Eureka server, allowing it to register other services and provide service discovery
+        capabilities within a distributed system.</p>
+    <div id="d">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#d', '<script src="https://gist.github.com/shaikezam/2effb33b0daaaa9c398baf88a9c96496.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p><span style="text-decoration: underline;">Spring Cloud API Gateway</span>: Serves as a centralized entry point,
+        enabling advanced routing, filtering, and rate limiting for improved security and performance and serve our
+        static resources.</p>
+    <p>This is the <code>pom.xml</code> file the APi Gateway.</p>
+    <p>We use dependency management of spring-cloud and use only the <code>spring-cloud-starter-gateway</code> package
+        to acts as a
+        api-gateway and the <code>spring-cloud-eureka-client</code> to register and discover other services.</p>
+    <div id="e">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#e', '<script src="https://gist.github.com/shaikezam/60c6faa79b2308e01479ae3fd55b053c.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>The provided YAML file configures the server port, eureka server host and application name</p>
+    <div id="f">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#f', '<script src="https://gist.github.com/shaikezam/854c0b191a33e5f9e497acfff992a4a3.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>This Application class sets up a Spring Boot application with service discovery capabilities and configures
+        routes for the
+        Spring Cloud Gateway to forward requests to backend services based on defined path patterns:</p>
+    <p><code>@EnableDiscoveryClient</code> annotation enables the service to participate as a discovery client, allowing
+        it to register with a service registry and discover other services.</p>
+    <p>The <code>customRouteLocator</code> method is a bean definition that configures the routes for the Spring Cloud
+        Gateway. It uses the <code>RouteLocatorBuilder</code> to define routes based on incoming paths and rewrite them
+        to backend service URLs using load-balanced (lb) URIs.</p>
+    <p>The example shows two routes: <code>"product-service"</code> and <code>"order-service"</code>, where the incoming
+        paths <code>"/webapi/products/"</code> and <code>"/webapi/orders/"</code> are rewritten to
+        <code>"/api/v1/&lt;API SUFFIX&gt;"</code> and forwarded to the respective backend services.
+    </p>
+    <p>For example <code>/webapi/products/foo</code> will redirect to /<code>api/v1/foo</code> of
+        <code>product-service</code>
+    </p>
+    <div id="g">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#g', '<script src="https://gist.github.com/shaikezam/3880f12c4a261c0e680b8b1241fb7a2e.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p><span style="text-decoration: underline;">Products Service</span>: Handles operations related to products, such
+        as retrieval, creation, and management.</p>
+    <p><span style="text-decoration: underline;">Orders Service</span>: Manages order-related functionalities, including
+        order placement, processing, and tracking.</p>
+    <p>Both <code>product-service</code> and <code>order-service</code> are <code>Spring boot application</code> that
+        written with MVC pattern that expose API in the controller, a service layer for BL and repository that
+        implemented by <code>Spring JdbcTemplate</code></p>
+    <p>Also, each service has it's own <code>applicatiom.yml</code> file that contains the service port, application
+        name and eureka server host.</p>
+    <p><span style="text-decoration: underline;">MariaDB Service</span>: Ensures persistent data storage for the
+        application, maintaining the integrity and reliability of the data.</p>
+    <p><span style="text-decoration: underline;">phpMyAdmin Service</span>: Offers a user-friendly interface to manage
+        and monitor the application's MariaDB database for easy debugging and data inspection.</p>
+    <p>This is the <code>docker-compsoe.yml</code> file (we open the ports for all service for debug purpose).</p>
+    <p>Feel free to change password (I choose to use Admin@Admin for DB & phpMyAdmin).</p>
+    <div id="a">
+        <script type="text/javascript">
+            $(function () {
+                postscribe('#a', '<script src="https://gist.github.com/shaikezam/90c559bc878107f41315b2ecc075ae63.js"><\/script>');
+            });
+        </script>
+    </div>
+    <p>The above demo can be run after you <a
+            href="https://github.com/shaikezam/spring-cloud-api-gateway-eureka-application">clone my repository</a>,
+        just execute build.sh file and nevigate to <code>localhost:8000/index.htm</code></p>
+    <p>You can also nevigate to eureka dashboard via <code>localhost:8001</code>.</p>
+</div>
