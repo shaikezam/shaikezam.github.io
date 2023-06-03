@@ -56,7 +56,7 @@
         a service registry and provide its availability and metadata information for other services to discover and
         interact with.</p>
     <p>Server service registry refers to the centralized repository or server that maintains the registry of available
-        services, allowing other services to discover and communicate with them dynamically throw a load balancer that
+        services, allowing other services to discover and communicate with them dynamically through a load balancer that
         has a well-known location.</p>
     <table class="table table-bordered">
         <thead>
@@ -118,13 +118,12 @@
         server for service instances based on their registered service ID.</p>
     <h3>Demo</h3>
     <p style="text-align:center;"><img src="/style/eureka-apigateway-demo.png"></p>
-    <p>We will introducing the power of Spring Cloud API Gateway and Eurekaour using simple e commerce web application
-        built on Docker Compose.</p>
-    <p>Our application is built with a microservices architecture, allowing seamless communication between services and
-        efficient scaling.</p>
+    <p>We will introducing the power of Spring Cloud API Gateway and Eureka using simple e-commerce web application
+        built on-top of Docker Compose.</p>
+    <p>Our application is built with a microservices architecture</p>
     <p><span style="text-decoration: underline;">Spring Cloud Eureka server</span>: Provides a service registry and
         discovery mechanism for seamless communication between microservices.</p>
-    <p>This is the <code>pom.xml</code> file the Eureka server.</p>
+    <p>This is the <code>pom.xml</code> file for the Eureka server.</p>
     <p>We use dependency management of spring-cloud and use only the <code>eureka-server</code> package to acts as a
         service registry.</p>
     <div id="b">
@@ -142,7 +141,7 @@
             });
         </script>
     </div>
-    <p>Last thing, we will set our Application main function the @Enable EurekaServer Spring annotation that enables a
+    <p>We will set in our main function the<code>@EnableEurekaServer</code> Spring annotation that enable the
         service to act as a Eureka server, allowing it to register other services and provide service discovery
         capabilities within a distributed system.</p>
     <div id="d">
@@ -186,7 +185,7 @@
         paths <code>"/webapi/products/"</code> and <code>"/webapi/orders/"</code> are rewritten to
         <code>"/api/v1/&lt;API SUFFIX&gt;"</code> and forwarded to the respective backend services.
     </p>
-    <p>For example <code>/webapi/products/foo</code> will redirect to /<code>api/v1/foo</code> of
+    <p>For example <code>/webapi/products/foo</code> will redirect to /<code>api/v1/products/foo</code> of
         <code>product-service</code>
     </p>
     <div id="g">
