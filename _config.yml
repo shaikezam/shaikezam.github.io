@@ -1,5 +1,7 @@
 title: shaikezam.com
 description: My Greate website!
 
+google_analytics: G-P3W9QHXFRB
+
 plugins:
   - jemoji
