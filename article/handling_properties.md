@@ -84,4 +84,12 @@ String location = props.getProperty("courseLocation"); //Auditorium
 ## Default Properties mechanism
 In some cases and scenarios we want to have a default values to provide an abstraction for some configurations.
 
-To achive such feature, we can pass to the `Properties` constructor a `Properties` instance that will supply a default values for a keys that doesn't exists in the current `Properties` instance.
+To achieve such feature, we can pass to the `Properties` constructor a `Properties` instance that will supply a default values for a keys that doesn't exists in the current `Properties` instance.
+```java
+Properties defaultProps = new Properties();
+defaultProps.setProperty("courseLocation", "classroom A33");
+Properties configuration = new Properties(defaultProps);
+String location = configuration.getProperty("courseLocation"); // "classroom A33"
+configuration.setProperty("courseLocation", "Auditorium"); // Override default value
+location = configuration.getProperty("courseLocation"); // "Auditorium"
+```
