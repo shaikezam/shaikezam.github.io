@@ -140,24 +140,30 @@ This configuration class centralizes the setup for scheduling tasks and provides
 #### The entry point
 
 ```java
-public class Main {
+@SpringBootApplication
+public class Application implements CommandLineRunner {
+
+    private static final Logger logger = Logger.getLogger(Application.class.getName());
+    @Autowired
+    private ISchedulerWrapper schedulerWrapper;
+    @Value("${scheduler.task.delay:1000}")
+    private long schedulerTaskMaxDelay;
 
     public static void main(String[] args) {
-        Supplier<String> text = Main::getText;
-
-        System.out.println(text.get());
+        SpringApplication.run(Application.class, args);
     }
 
-    public static String getText() {
-        return "Hello shaikezam.com";
+    @Override
+    public void run(String... args) {
+        logger.info("Application started...");
+        schedulerWrapper.startSchedulerTask(schedulerTaskMaxDelay);
     }
-
 }
 ```
-
 
 In the last part of our demonstration, the `Application` class serves as the entry point for the Spring Boot application.
 
 It implements `CommandLineRunner` (Spring Boot interface that provides a convenient way to execute code after the application context is fully initialized, allowing the execution of custom logic or tasks on application startup), and upon startup, it logs an info message confirming the application's start.
 
-The class injects an `ISchedulerWrapper` bean and starts a scheduled task with a specified delay (defaulting to 1000 milliseconds) using the injected scheduler wrapper.
+The class injects an `ISchedulerWrapper` bean and starts a scheduled task with a specified delay (defaulting to 1000 milliseconds) using the injected scheduler wrapper.  
+The above demo can be run after you [clone my repository](https://github.com/shaikezam/Spring-Scheduling-Task-With-Counter)

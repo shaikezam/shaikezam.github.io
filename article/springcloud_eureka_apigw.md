@@ -451,8 +451,8 @@ networks:
     name: product-network
 ```
 
-The above demo can be run after you [clone my repository](https://github.com/shaikezam/spring-cloud-api-gateway-eureka-application "clone my repository"), just execute build.sh file and nevigate to `localhost:8000/index.htm`
+The above demo can be run after you [clone my repository](https://github.com/shaikezam/spring-cloud-api-gateway-eureka-application "clone my repository"), just execute build.sh file and navigate to `localhost:8000/index.htm`
 
-You can also nevigate to eureka dashboard via `localhost:8001`.
+You can also navigate to eureka dashboard via `localhost:8001`.
 
 
