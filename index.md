@@ -12,7 +12,7 @@ GL & HF 🚀
 
 ## articles
 
-*   [10-02-2024](#) :star: Step-by-Step Data Integration: Tutorials for Building Robust Star Schema in Data Warehouses
+*   [10-02-2024](#) :star: Step-by-Step Data Integration: Tutorial for Building Robust Star Schema in Data Warehouses
 *   [25-01-2024](article/spring_scheduling_task_fixed_exeuctions) :alarm\_clock: Spring Scheduling Task with fixed number of executions
 *   [02-06-2023](article/springcloud_eureka_apigw) :earth\_americas: Exploring Microservices Architecture with with Spring Cloud: Eureka and API Gateway
 *   [15-02-2022](article/split_db_migrations) Split DB migration from services using Kubernetes jobs
