@@ -10,7 +10,7 @@ GL & HF 🚀
 
 ---
 
-## articles "Step-by-Step Data Integration: Tutorials for Building Robust Star Schema in Data Warehouses"
+## articles
 
 *   [10-02-2024](#) :star: Step-by-Step Data Integration: Tutorials for Building Robust Star Schema in Data Warehouses
 *   [25-01-2024](article/spring_scheduling_task_fixed_exeuctions) :alarm\_clock: Spring Scheduling Task with fixed number of executions
