@@ -37,12 +37,26 @@ Here's a more detailed explanation of how servlets work:
 - Lifecycle Management: Servlet containers manage the lifecycle of servlet instances, creating instances when needed and destroying them when they are no longer needed.
   Servlet containers also handle multithreading, ensuring that servlets can handle multiple requests concurrently.
 
-## Eager Singleton classs initialization
-The simple singleton java implementation.
+## Hello world Servelt
+In this blog post, we will demonstrate how to create a simple "Hello World" servlet using Jetty embedded in a Maven project.
 
-The object's instance is created while the class is loading, which leads to some drawbacks:
-- If we will not use the Object, it still will be created even if the application will not use it which can leads to waste of resources.
-- There isn't really error handling or any exceptions handling in this approach.
+We will also show how to use servlet filters to intercept and process requests before they reach the servlet.
+
+Jetty is a lightweight servlet container that allows you to run servlets and web applications without the need for a separate server installation.
+
+### Legacy `web.xml` vs Programming API
+
+The traditional approach to configuring servlets and web applications in Jakarta EE is to use the web.xml deployment descriptor.
+
+This XML file contains mappings for servlets, filters, and other web components, as well as configuration settings for the web application.
+
+However, this approach can be cumbersome and verbose, especially for simple applications.
+
+In contrast, using Jetty's programming API allows developers to configure servlets and web applications programmatically, without the need for a web.xml file.
+
+This approach is more flexible and concise, as it allows developers to configure servlets, filters, and other web components directly in Java code.
+
+Additionally, using the programming API allows for easier integration with other Java libraries and frameworks, making it a more modern and flexible approach to developing web applications.
 
 ```java
 public class FileSystemEagerSingleton {
