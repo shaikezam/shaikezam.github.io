@@ -58,127 +58,86 @@ This approach is more flexible and concise, as it allows developers to configure
 
 Additionally, using the programming API allows for easier integration with other Java libraries and frameworks, making it a more modern and flexible approach to developing web applications.
 
-```java
-public class FileSystemEagerSingleton {
-    private static final FileSystemEagerSingleton instance = new FileSystemEagerSingleton();
+### Setting Up the Project
+To get started, we need to set up a Maven project with the necessary dependencies.
 
-    //private  - ensures that the class can never be instantiated from outside the class.
-    private FileSystemEagerSingleton() {
-    }
+Here's a basic pom.xml file that includes the Jetty dependency:
 
-    public static FileSystemEagerSingleton getInstance() {
-        return instance;
-    }
-}
-```
-## Singleton classs initialization through static block
-Similar to the above implementation except that it can have an exception handling (be aware that it also created even if the application will not use it, i.e. it will create in the class loading).
-
-```java
-public class FileSystemStaticSingleton {
-    private static FileSystemStaticSingleton instance;
-
-    //private  - ensures that the class can never be instantiated from outside the class.
-    private FileSystemStaticSingleton() {
-    }
-
-    static {
-        try {
-            instance = new FileSystemStaticSingleton();
-        } catch (Exception ex) {
-            // error handling
-        }
-    }
-
-    public static FileSystemStaticSingleton getInstance() {
-        return instance;
-    }
-}
-```
-## Lazy Singleton classs initialization
-In this approce, we now can handle the exceptions handling and the Object's instance will be create when we will call in the 1st time we call to the `getInstance() `method.
-
-This will work great in a `single-thread` environment, when we will run in `multi-thread` environment, we will have some issue that the Object's instance can be created twice (or more) if multiple threads will be inside the `if` statement.
-
-That's means that the singleton approach will be broken.
-```java
-public class FileSystemLazySingleton {
-    private static FileSystemLazySingleton instance;
-
-    //private  - ensures that the class can never be instantiated from outside the class.
-    private FileSystemLazySingleton() {
-    }
-
-    public static FileSystemLazySingleton getInstance() {
-        if (instance == null) {
-            instance = new FileSystemLazySingleton();
-        }
-        return instance;
-    }
-}
-```
-## Thread safe Singleton classs initialization
-We can wrap the `getInstance()` method with the `synchronized` keyword, to enable it to be thread safe (only 1 thread can execute this method).
-
-The implementation will work great but with one disadvantage:
-
-Because only 1 thread can access the `getInstance()` method we have created a performance issue in here, in case a lot of threads want to get the Object's instance, they will have to wait for no reasone as the Object already has been created already.
-```java
-public class FileSystemThreadSafeSingleton {
-    private static FileSystemThreadSafeSingleton instance;
-
-    //private  - ensures that the class can never be instantiated from outside the class.
-    private FileSystemThreadSafeSingleton() {
-    }
-
-    public static synchronized FileSystemThreadSafeSingleton getInstance() {
-        if (instance == null) {
-            instance = new FileSystemThreadSafeSingleton();
-        }
-        return instance;
-    }
-}
-```
-## Double Checked Thread safe Singleton classs initialization
-The solution for this will be Double Check Singleton.
-
-We will set the thread safe mechanism only in the 2nd if statement, so anyone who need the Object's instance (and it already been created) do not need to wait.
-
-```java
-public class FileSystemDoubleCheckedSingleton {
-    private static FileSystemDoubleCheckedSingleton instance;
-
-    //private  - ensures that the class can never be instantiated from outside the class.
-    private FileSystemDoubleCheckedSingleton() {
-    }
-
-    public static FileSystemDoubleCheckedSingleton getInstance() {
-        if (instance == null) {
-            synchronized (FileSystemDoubleCheckedSingleton.class) {
-                if (instance == null) {
-                    instance = new FileSystemDoubleCheckedSingleton();
-                }
-            }
-        }
-        return instance;
-    }
-}
-```
-## The Reflection problem
-Well, it does not really a problem, but all above solutions are not relevant in case we create another instance via the reflection's `getDeclaredConstructors` API and set it's accessible to `true`.
-
-In order to solve it, we can create singleton using `Enum`.
-```java
-public enum FileSystemEnumSingleton {
-
-    INSTANCE;
-
-    public static void writeToFile(final String fileName, final String data) throws IOException {
-        try (Writer writer = Files.newBufferedWriter(Paths.get(fileName))) {
-            writer.write(data);
-        }
-    }
-}
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.shaikezam</groupId>
+    <artifactId>servlet</artifactId>
+    <packaging>jar</packaging>
+    <properties>
+        <jetty.version>11.0.20</jetty.version>
+        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+        <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
+        <slf4j-nop.version>2.0.12</slf4j-nop.version>
+    </properties>
+    <version>1.0-SNAPSHOT</version>
+    <name>servlet</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>${slf4j-nop.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>io.shaikezam.App</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
 ```
 
+Let's lists the dependencies for the project:
+1. `jetty-server` from the org.eclipse.jetty group for embedding Jetty server.
+2. `jetty-servlet` from the org.eclipse.jetty group for servlet support.
+3. `jakarta.servlet-api` for the Jakarta Servlet API. The `<scope>provided</scope>` indicates that this dependency is provided by the servlet container at runtime.
+4. slf4j-nop for the SLF4J NOP logger implementation (we will use the old JUL by the JDK).
 
+We will use the Maven Assembly Plugin (`maven-assembly-plugin`) to create a standalone JAR file with dependencies included.
+
+The `<configuration>` section specifies the main class (io.shaikezam.App) that should be executed when the JAR file is run.
