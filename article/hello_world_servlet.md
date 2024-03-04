@@ -7,11 +7,9 @@ Java servlets are the foundation of dynamic web applications in Java.
 
 They provide a way to extend the capabilities of web servers and serve dynamic content to users.
 
-In this blog post, we'll introduce servlets and create a simple "Hello World" example to get you started.
-
-A servlet is a Java class that extends the capabilities of a server.
-
 It receives and responds to requests from web clients, such as web browsers, and can generate dynamic content like HTML pages or handle form submissions.
+
+In this blog post, we'll introduce servlets and create a simple "Hello World" example to get you started.
 
 ### More detailed
 Servlets are the Jakarta EE (formally known as JavaEE or J2EE) standard for developing server-side applications.
@@ -42,12 +40,11 @@ In this blog post, we will demonstrate how to create a simple "Hello World" serv
 
 We will also show how to use servlet filters to intercept and process requests before they reach the servlet.
 
-Jetty is a lightweight servlet container that allows you to run servlets and web applications without the need for a separate server installation.
-
 ### What is it `Jetty`
 [Jetty](https://eclipse.dev/jetty/ "Jetty") is a lightweight, open-source web server and servlet container written in Java.
 
 Jetty has a long history and is one of the oldest Java servlet containers still in active development.
+
 Over the years, Jetty has evolved into a versatile and highly performant web server that is used in a wide range of applications, from small embedded devices to large-scale web applications.
 
 One of the key features of Jetty is its embeddable nature, which allows it to be easily integrated into Java applications.
