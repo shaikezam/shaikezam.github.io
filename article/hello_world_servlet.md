@@ -44,6 +44,18 @@ We will also show how to use servlet filters to intercept and process requests b
 
 Jetty is a lightweight servlet container that allows you to run servlets and web applications without the need for a separate server installation.
 
+### What is it `Jetty`
+[Jetty](https://eclipse.dev/jetty/ "Jetty") is a lightweight, open-source web server and servlet container written in Java.
+
+Jetty has a long history and is one of the oldest Java servlet containers still in active development.
+Over the years, Jetty has evolved into a versatile and highly performant web server that is used in a wide range of applications, from small embedded devices to large-scale web applications.
+
+One of the key features of Jetty is its embeddable nature, which allows it to be easily integrated into Java applications.
+
+This makes Jetty a popular choice for developers who want to build lightweight and modular web applications.
+
+Jetty also has a strong focus on performance and scalability, making it suitable for high-traffic websites and applications.
+
 ### Legacy `web.xml` vs Programming API
 
 The traditional approach to configuring servlets and web applications in Jakarta EE is to use the web.xml deployment descriptor.
@@ -66,78 +78,80 @@ Here's a basic pom.xml file that includes the Jetty dependency:
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>io.shaikezam</groupId>
-    <artifactId>servlet</artifactId>
-    <packaging>jar</packaging>
-    <properties>
-        <jetty.version>11.0.20</jetty.version>
-        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
-        <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
-        <slf4j-nop.version>2.0.12</slf4j-nop.version>
-    </properties>
-    <version>1.0-SNAPSHOT</version>
-    <name>servlet</name>
-    <url>http://maven.apache.org</url>
-    <dependencies>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>${jakarta.servlet-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <version>${slf4j-nop.version}</version>
-        </dependency>
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>${maven-assembly-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <archive>
-                                <manifest>
-                                    <mainClass>io.shaikezam.App</mainClass>
-                                </manifest>
-                            </archive>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.shaikezam</groupId>
+  <artifactId>servlet</artifactId>
+  <packaging>jar</packaging>
+  <properties>
+    <jetty.version>11.0.20</jetty.version>
+    <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+    <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
+    <slf4j-nop.version>2.0.12</slf4j-nop.version>
+  </properties>
+  <version>1.0-SNAPSHOT</version>
+  <name>servlet</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>${jakarta.servlet-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-nop</artifactId>
+      <version>${slf4j-nop.version}</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>${maven-assembly-plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifest>
+                  <mainClass>io.shaikezam.App</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
 ```
 
 Let's lists the dependencies for the project:
 1. `jetty-server` from the org.eclipse.jetty group for embedding Jetty server.
 2. `jetty-servlet` from the org.eclipse.jetty group for servlet support.
-3. `jakarta.servlet-api` for the Jakarta Servlet API. The `<scope>provided</scope>` indicates that this dependency is provided by the servlet container at runtime.
+3. `jakarta.servlet-api` for the Jakarta Servlet API. The `<scope>provided</scope>` indicates that this dependency is provided by the servlet container (`Jetty`) at runtime.
 4. slf4j-nop for the SLF4J NOP logger implementation (we will use the old JUL by the JDK).
 
 We will use the Maven Assembly Plugin (`maven-assembly-plugin`) to create a standalone JAR file with dependencies included.
 
 The `<configuration>` section specifies the main class (io.shaikezam.App) that should be executed when the JAR file is run.
+
+
