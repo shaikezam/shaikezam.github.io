@@ -159,6 +159,147 @@ Next, we'll create a simple http servlet that responds with a relevant message f
 
 Overall, this servlet provides a simple way to handle different types of HTTP requests and respond with a message confirming the request was received.
 
+```java
+package io.shaikezam.servlet;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+
+public class SimpleServlet extends HttpServlet {
+
+    private static final Logger LOGGER = Logger.getLogger(SimpleServlet.class.getName());
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        LOGGER.info("Received GET request");
+        resp.getWriter().println("Hello, GET request received");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        LOGGER.info("Received POST request");
+        resp.getWriter().println("Hello, POST request received");
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        LOGGER.info("Received PUT request");
+        resp.getWriter().println("Hello, PUT request received");
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        LOGGER.info("Received DELETE request");
+        resp.getWriter().println("Hello, DELETE request received");
+    }
+}
+
+```
+
+### Add filter to intercept the http servelt requests
+
+In Java servlets, filters play a crucial role in intercepting and processing incoming requests before they reach the servlet.
+
+Filters provide a way to perform common pre-processing and post-processing tasks, such as authentication, logging, data transformation, and request validation, without modifying the servlet code.
+
+This allows for modular and reusable code that can be applied to multiple servlets or web applications.
+
+We'll explore how to enhance a servlet application by adding two filters:
+#### AuthenticatingFilter for authentication.
+The AuthenticatingFilter checks if a specific cookie, sessionId, is present in the incoming request.
+
+If the cookie is not found, the filter responds with a 401 Unauthorized status code and a message indicating that the user is not authorized.
+
+This filter adds a layer of security to the servlet application by ensuring that only authenticated users can access certain endpoints.
+
+```java
+package io.shaikezam.filter;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+
+public class AuthenticatingFilter implements Filter {
+
+    private static final Logger LOGGER = Logger.getLogger(AuthenticatingFilter.class.getName());
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        // Check if the sessionId cookie is present
+        Cookie[] cookies = request.getCookies();
+        boolean sessionIdCookiePresent = false;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("sessionId".equals(cookie.getName())) {
+                    sessionIdCookiePresent = true;
+                    break;
+                }
+            }
+        }
+        if (!sessionIdCookiePresent) {
+            LOGGER.warning("sessionId cookie not present");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Set 401 Unauthorized status code
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized will redirect to login page...");
+            return;
+        }
+        // Log the request details
+        LOGGER.info("Request from " + request.getRemoteAddr() + " authorized");
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+}
+
+```
+
+#### RequestSizeLimitFilter for limiting the size of incoming requests.
+The RequestSizeLimitFilter limits the size of incoming requests to prevent potential denial-of-service (DoS) attacks or excessive resource consumption.
+
+It checks the content length of the request and if it exceeds a predefined limit (1KB in this case), it responds with a 413 Request Entity Too Large status code.
+
+This filter helps in maintaining the performance and stability of the servlet application by rejecting overly large requests.
+
+```java
+package io.shaikezam.filter;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+
+public class RequestSizeLimitFilter implements Filter {
+
+    private static final Logger LOGGER = Logger.getLogger(RequestSizeLimitFilter.class.getName());
+    private static final int MAX_REQUEST_SIZE = 1024; // 1KB
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        if (request.getContentLength() > MAX_REQUEST_SIZE) {
+            LOGGER.warning("Request size exceeds limit");
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
+            response.sendError(HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE, "Request entity too large");
+            return;
+        }
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+}
+
+```
+
+Both filters demonstrate how servlet filters can be used to enhance the functionality and security of a servlet application.
+
+By adding these filters to your servlet application, you can improve its overall robustness and reliability.
 
 
