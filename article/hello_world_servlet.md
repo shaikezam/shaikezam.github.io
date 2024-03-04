@@ -307,9 +307,9 @@ Finally, we'll configure Jetty to use our servlet and start the server.
 
 First, we create a `ServletContextHandler` to manage servlets and filters.
 
-We set the context path to "/" to handle all requests to the server. Then, we add the two filters we mentioned above: `AuthenticatingFilter` and `RequestSizeLimitFilter`.
+We set the context path to `/` to handle all requests to the server. Then, we add the two filters we mentioned above: `AuthenticatingFilter` and `RequestSizeLimitFilter`.
 
-Both filters are mapped to "/*", indicating that they will apply to all requests.
+Both filters are mapped to `/*`, indicating that they will apply to all requests.
 
 In Jetty embedded, the order of filters is determined by the order in which they are added to the `ServletContextHandler`.
 
@@ -360,3 +360,19 @@ public class App {
 }
 
 ```
+
+### Run the demo
+
+After all, in the root of the project, le'ts execute `mvn clean install` to build the executable jar
+
+Then, we can nevigate to the `target` folder and execute `java -jar servlet-1.0-SNAPSHOT-jar-with-dependencies.jar` to run our server; we will get a log message:
+
+`INFO: Start server at port 8000` indicated that our server is up and running on port 8000.
+
+Let's execute `curl -i -X POST http://localhost:8000/my-servlet/`, we will get `Error 401 Unauthorized will redirect to login page...` as the filter did, no `sessionId` cookie exists.
+
+Now, let's create a 2KB data for large payload `data=$(printf "%02048d" 0)`, but execute request with dummy session cookie: `curl -i -X POST http://localhost:8000/my-servlet/ -d "$data" -H "Cookie: sessionId=dummy"`, we will get `Error 413 Request entity too large`
+
+Finally, we will create a successfuly request: `curl -i -X GET http://localhost:8000/my-servlet/ -H "Cookie: sessionId=dummy"` and we get `200 OK` with resposne body `Hello, GET request received`
+
+The above demo can be run after you clone my [repository](https://github.com/shaikezam/Embedded-jetty-simple-servelt "repository")
