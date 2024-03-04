@@ -78,69 +78,69 @@ Here's a basic pom.xml file that includes the Jetty dependency:
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>io.shaikezam</groupId>
-  <artifactId>servlet</artifactId>
-  <packaging>jar</packaging>
-  <properties>
-    <jetty.version>11.0.20</jetty.version>
-    <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
-    <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
-    <slf4j-nop.version>2.0.12</slf4j-nop.version>
-  </properties>
-  <version>1.0-SNAPSHOT</version>
-  <name>servlet</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${jetty.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <version>${jetty.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-      <version>${jakarta.servlet-api.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-nop</artifactId>
-      <version>${slf4j-nop.version}</version>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>${maven-assembly-plugin.version}</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <archive>
-                <manifest>
-                  <mainClass>io.shaikezam.App</mainClass>
-                </manifest>
-              </archive>
-              <descriptorRefs>
-                <descriptorRef>jar-with-dependencies</descriptorRef>
-              </descriptorRefs>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.shaikezam</groupId>
+    <artifactId>servlet</artifactId>
+    <packaging>jar</packaging>
+    <properties>
+        <jetty.version>11.0.20</jetty.version>
+        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+        <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
+        <slf4j-nop.version>2.0.12</slf4j-nop.version>
+    </properties>
+    <version>1.0-SNAPSHOT</version>
+    <name>servlet</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>${slf4j-nop.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>io.shaikezam.App</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
 ```
 
@@ -153,5 +153,12 @@ Let's lists the dependencies for the project:
 We will use the Maven Assembly Plugin (`maven-assembly-plugin`) to create a standalone JAR file with dependencies included.
 
 The `<configuration>` section specifies the main class (io.shaikezam.App) that should be executed when the JAR file is run.
+
+### Creating the Servlet
+Next, we'll create a simple http servlet that responds with a relevant message for each http method in which handles HTTP GET, POST, PUT, and DELETE requests.
+
+Overall, this servlet provides a simple way to handle different types of HTTP requests and respond with a message confirming the request was received.
+
+
 
 
