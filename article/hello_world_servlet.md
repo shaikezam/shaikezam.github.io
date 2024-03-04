@@ -302,4 +302,61 @@ Both filters demonstrate how servlet filters can be used to enhance the function
 
 By adding these filters to your servlet application, you can improve its overall robustness and reliability.
 
+### Wrap it all together using the embedded Jetty server
+Finally, we'll configure Jetty to use our servlet and start the server.
 
+First, we create a `ServletContextHandler` to manage servlets and filters.
+
+We set the context path to "/" to handle all requests to the server. Then, we add the two filters we mentioned above: `AuthenticatingFilter` and `RequestSizeLimitFilter`.
+
+Both filters are mapped to "/*", indicating that they will apply to all requests.
+
+In Jetty embedded, the order of filters is determined by the order in which they are added to the `ServletContextHandler`.
+
+Filters are added using the `addFilter` method, and their order is specified by the order in which they are added to the `FilterHolder` list.
+
+Next, we add a servlet, SimpleServlet, using a `ServletHolder`, and map it to `/my-servlet/*`.
+This servlet will handle requests under this path.
+
+`AuthenticatingFilter` will be executed before `RequestSizeLimitFilter` for requests matching the specified path pattern.
+
+This order is important, as it determines the sequence in which filters are applied to incoming requests.
+
+Moving on, we create a Server instance (on port 8000) and set its handler to the `ServletContextHandler` we configured earlier.
+
+We start the server, and if successful, log a message indicating that the server has started.
+
+Finally, we call server.join() to keep the server running until it is explicitly stopped.
+
+```java
+package io.shaikezam;
+
+import io.shaikezam.filter.AuthenticatingFilter;
+import io.shaikezam.filter.RequestSizeLimitFilter;
+import io.shaikezam.servlet.SimpleServlet;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+
+import java.util.logging.Logger;
+
+public class App {
+
+    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
+
+    public static void main(String[] args) throws Exception {
+        ServletContextHandler context = new ServletContextHandler();
+        context.setContextPath("/");
+        context.addFilter(AuthenticatingFilter.class, "/*", null);
+        context.addFilter(RequestSizeLimitFilter.class, "/*", null);
+        context.addServlet(new ServletHolder(new SimpleServlet()), "/my-servlet/*");
+
+        Server server = new Server(8000);
+        server.setHandler(context);
+        server.start();
+        LOGGER.info("Start server at port 8000");
+        server.join();
+    }
+}
+
+```
