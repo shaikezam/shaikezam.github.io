@@ -6,7 +6,7 @@ I've created this blog to publish topics related to JDK, data engineering, cloud
 
 GL & HF 🚀
 
-[:octocat: github](https://github.com/shaikezam/) / [:dolls: linkedin](https://www.linkedin.com/in/shai-zambrovski-112505a5/) / [:email: eMail me](mailto:shaike.zam@gmail.com)
+:octocat: [github](https://github.com/shaikezam/) / [:dolls: linkedin](https://www.linkedin.com/in/shai-zambrovski-112505a5/) / [:email: eMail me](mailto:shaike.zam@gmail.com)
 
 ---
 
