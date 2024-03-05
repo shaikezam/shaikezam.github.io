@@ -6,7 +6,7 @@ I've created this blog to publish topics related to JDK, data engineering, cloud
 
 GL & HF 🚀
 
-:octocat: [github](https://github.com/shaikezam/) / [:dolls: linkedin](https://www.linkedin.com/in/shai-zambrovski-112505a5/) / [:email: eMail me](mailto:shaike.zam@gmail.com)
+[:octocat: github](https://github.com/shaikezam/) / [:dolls: linkedin](https://www.linkedin.com/in/shai-zambrovski-112505a5/) / [:email: eMail me](mailto:shaike.zam@gmail.com)
 
 ---
 
@@ -15,7 +15,7 @@ GL & HF 🚀
 *   [30-03-2024](#) :star: Step-by-Step Data Integration: Tutorial for Building Robust Star Schema in Data Warehouses
 *   [04-03-2024](article/hello_world_servlet) Servlets Made Easy: A Beginner's Guide with Hello World
 *   [25-01-2024](article/spring_scheduling_task_fixed_exeuctions) :alarm\_clock: Spring Scheduling Task with fixed number of executions
-*   [02-06-2023](article/springcloud_eureka_apigw) :earth\_americas: Exploring Microservices Architecture with with Spring Cloud: Eureka and API Gateway
+*   [02-06-2023](article/springcloud_eureka_apigw) :earth\_americas: Exploring Microservices Architecture with Spring Cloud: Eureka and API Gateway
 *   [15-02-2022](article/split_db_migrations) Split DB migration from services using Kubernetes jobs
 *   [18-01-2022](article/function_bifunction) `Function` & `BiFunction` Java 8 API
 *   [18-01-2022](article/supplier) `Supplier` Java 8 API

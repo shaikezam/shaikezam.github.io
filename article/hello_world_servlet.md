@@ -372,4 +372,4 @@ Now, let's create a 2KB data for large payload `data=$(printf "%02048d" 0)`, but
 
 Finally, we will create a successfuly request: `curl -i -X GET http://localhost:8000/my-servlet/ -H "Cookie: sessionId=dummy"` and we get `200 OK` with resposne body `Hello, GET request received`
 
-The above demo can be run after you clone my [repository](https://github.com/shaikezam/Embedded-jetty-simple-servelt "repository")
+The above demo can be run after you clone my [repository](https://github.com/shaikezam/Embedded-jetty-simple-servelt "repository").
