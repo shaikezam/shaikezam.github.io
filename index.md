@@ -9,7 +9,8 @@ GL & HF 🚀
 [:octocat: github](https://github.com/shaikezam/) / [:dolls: linkedin](https://www.linkedin.com/in/shai-zambrovski-112505a5/) / [:email: eMail me](mailto:shaike.zam@gmail.com)
 
 ---
-
+:octocat:
+:star:
 ## articles
 
 *   [30-03-2024](#) :star: Step-by-Step Data Integration: Tutorial for Building Robust Star Schema in Data Warehouses
