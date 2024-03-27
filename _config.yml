@@ -1,12 +1,1 @@
-title: shaikezam.com
-description: My Greate website!
-
-google_analytics: G-P3W9QHXFRB
-
-plugins:
-  - jemoji
-  - jekyll-analytics
-
-jekyll_analytics:
-  GoogleAnalytics:
-    id: G-P3W9QHXFRB
+theme: jekyll-theme-cayman
