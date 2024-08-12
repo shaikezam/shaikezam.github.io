@@ -38,7 +38,16 @@ Jakarta EE is essential for Java developers because it provides standardized, pr
 
 - Spring: A flexible, non-standardized framework offering a more modular and developer-friendly approach. It provides a wide range of tools and extensions, allowing for faster development and easier integration with other technologies. Spring is often preferred for its simplicity, ease of use, and support for modern practices like microservices and cloud-native development.
 
-In essence, Jakarta EE is about standardization and enterprise-level consistency, while Spring emphasizes flexibility and rapid development. Both are powerful, but the choice depends on project needs and developer preferences.
+In essence, Jakarta EE is about standardization and enterprise-level consistency, while Spring emphasizes flexibility and rapid development.
+
+Both are powerful, but the choice depends on project needs and developer preferences.
+
+## JPA (Java Persistence API)
+## JMS (Java Message Service)
+## CDI (Contexts and Dependency Injection)
+## JAX-RS (Java API for RESTful Web Services).
+## Demo
+![](https://shaikezam.com/style/jakarta_hld.png)
 
 
 
