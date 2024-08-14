@@ -127,6 +127,7 @@ Common JPA implementations include Hibernate, EclipseLink, and Apache OpenJPA, e
 - EntityManagerFactory: A factory class responsible for creating EntityManager instances. It is a heavyweight object that is typically created once per application and used throughout its lifecycle to manage entity managers.
 ### Simple example
 #### Map RDBMS table to a JPA entity
+
 ```sql
 CREATE TABLE User (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -136,9 +137,6 @@ CREATE TABLE User (
 ```
 
 ```java
-import jakarta.persistence.*;
-
-@Entity
 import jakarta.persistence.*;
 
 @Entity // Marks this class as a JPA entity, which maps to a database table
