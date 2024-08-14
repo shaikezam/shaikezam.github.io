@@ -154,6 +154,73 @@ public class User {
 
 }
 ```
+
+#### `persistence.xml` file with CRUD operations
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <persistence-unit name="my-persistence-unit">
+        <class>User</class> <!-- Specifies the entity class that should be managed by this persistence unit -->
+
+        <!-- Database connection settings -->
+        <properties>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/your_database"/> <!-- JDBC URL for connecting to the MariaDB database -->
+            <property name="jakarta.persistence.jdbc.user" value="your_username"/> <!-- Database username -->
+            <property name="jakarta.persistence.jdbc.password" value="your_password"/> <!-- Database password -->
+            <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/> <!-- JDBC driver class for MariaDB -->
+
+            <!-- EclipseLink as the JPA provider -->
+            <property name="jakarta.persistence.provider" value="org.eclipse.persistence.jpa.PersistenceProvider"/> <!-- Specifies EclipseLink as the JPA provider -->
+            <property name="eclipselink.logging.level" value="INFO"/> <!-- Sets the logging level for EclipseLink -->
+            <property name="eclipselink.schema-generation.database.action" value="update"/> <!-- Tells EclipseLink to update the database schema based on entities -->
+        </properties>
+    </persistence-unit>
+
+</persistence>
+```
+
+```java
+import jakarta.persistence.*;
+
+public class JpaExample {
+
+    public static void main(String[] args) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit");
+        EntityManager em = emf.createEntityManager();
+
+        // Create
+        em.getTransaction().begin();
+        User user = new User();
+        user.setName("John Doe");
+        user.setEmail("john.doe@example.com");
+        em.persist(user);
+        em.getTransaction().commit();
+
+        // Read
+        User foundUser = em.find(User.class, user.getId());
+        System.out.println("Found User: " + foundUser.getName());
+
+        // Update
+        em.getTransaction().begin();
+        foundUser.setEmail("john.doe@newdomain.com");
+        em.getTransaction().commit();
+
+        // Delete
+        em.getTransaction().begin();
+        em.remove(foundUser);
+        em.getTransaction().commit();
+
+        em.close();
+        emf.close();
+    }
+}
+```
+
 ## JMS (Java Message Service)
 ## CDI (Contexts and Dependency Injection)
 ## Demo
