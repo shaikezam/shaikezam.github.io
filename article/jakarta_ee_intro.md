@@ -122,7 +122,7 @@ It abstracts the database interactions, allowing developers to work with Java ob
 Common JPA implementations include Hibernate, EclipseLink, and Apache OpenJPA, each providing additional features and optimizations while adhering to the JPA specification.
 
 - JPA Entity: Represents a Java object that maps to a database table, allowing you to work with database records as Java objects.
-- persistence.xml: A configuration file that defines the persistence units in a JPA application. It specifies the database connection details, entity classes, and other JPA settings, serving as the blueprint for how the application interacts with the database. Typically located in the META-INF directory within the classpath of a Java application. For a standard Maven project, it is placed in: `src/main/resources/META-INF/persistence.xml`
+- persistence.xml: A configuration file that defines the persistence units in a JPA application. It specifies the database connection details, entity classes, and other JPA settings, serving as the blueprint for how the application interacts with the database. typically located in the META-INF directory within the classpath of a Java application. For a standard Maven project, it is placed in: `src/main/resources/META-INF/persistence.xml`
 - EntityManager: The primary interface used for interacting with the persistence context in JPA. It manages the lifecycle of entities, handles CRUD operations, and provides query capabilities to interact with the database.
 - EntityManagerFactory: A factory class responsible for creating EntityManager instances. It is a heavyweight object that is typically created once per application and used throughout its lifecycle to manage entity managers.
 ### Simple example
@@ -134,6 +134,7 @@ CREATE TABLE User (
     email VARCHAR(255)
 );
 ```
+
 ```java
 import jakarta.persistence.*;
 
