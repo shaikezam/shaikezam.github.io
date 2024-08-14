@@ -52,30 +52,9 @@ JAX-RS supports common HTTP methods like GET, POST, PUT, DELETE, and makes it st
 It's popular implementations include [Jersey](https://eclipse-ee4j.github.io/jersey/ "Jersey") and [RESTEasy](https://resteasy.dev/ "RESTEasy").
 
 ### Differences between JAX-RS and Java Servlets
-#### Purpose:
-- JAX-RS is specifically designed for creating RESTful web services, providing a higher-level API with annotations that simplify the mapping of HTTP requests to Java methods.
+- JAX-RS is a framework that simplifies the development of RESTful web services by using annotations to map HTTP requests to resource methods, focusing on REST principles.
 
-- Java Servlets, on the other hand, are a more general-purpose API for handling HTTP requests and responses, often requiring more boilerplate code to implement RESTful behavior.
-
-#### Abstraction:
-- JAX-RS abstracts away much of the low-level details of handling HTTP requests, allowing developers to focus on the resource representation and business logic.
-
-- Java Servlets require developers to manually handle HTTP request and response objects, making them more flexible but also more verbose and complex for common web service tasks.
-
-#### Annotations vs. Code:
-- JAX-RS uses annotations (like @GET, @POST, @Path, @Produces, and @Consumes) to declaratively define how methods handle HTTP requests.
-
-- Java Servlets rely on overriding methods like doGet() and doPost() in a servlet class, leading to more imperative code.
-
-#### Ease of Use:
-- JAX-RS is easier and faster to use for creating RESTful APIs, as it handles many common tasks out-of-the-box.
-
-- Servlets, while more flexible, require more manual configuration and coding, making them more suitable for lower-level HTTP handling or non-RESTful web applications.
-
-#### Specification vs. Core API:
-- JAX-RS is a framework that builds on top of the servlet API, often using servlets internally to process requests.
-
-- Java Servlets are a core part of Java’s web development capabilities and are the foundation upon which many Java web frameworks (including JAX-RS implementations) are built.
+- In contrast, Java Servlets offer a more granular, low-level approach to handling HTTP requests and responses, requiring manual management of routing, request processing, and response generation.
 
 ### Difference between JAX-RS `Resource` and Spring `Controller`
 Spring Controller is part of the Spring MVC framework, designed for building web applications with extensive features and tight integration into the Spring ecosystem, using annotations like `@RestController` and `@RequestMapping`.
@@ -135,13 +114,11 @@ public class ItemResource {
 }
 ```
 
-
 ## JPA (Java Persistence API)
 ## JMS (Java Message Service)
 ## CDI (Contexts and Dependency Injection)
 ## Demo
 ![](https://shaikezam.com/style/jakarta_hld.png)
-
 
 
 The above demo can be run after you clone my [repository](https://github.com/shaikezam/Jakarta-EE-Application "repository").
