@@ -43,7 +43,7 @@ In essence, Jakarta EE is about standardization and enterprise-level consistency
 Both are powerful, but the choice depends on project needs and developer preferences.
 
 ## JAX-RS (Java API for RESTful Web Services).
-JAX-RS (Java API for RESTful Web Services) is a Java API designed to simplify the development of web services that follow the REST architectural style.
+JAX-RS (Java API for RESTful Web Services) is a Java API and a standard specification designed to simplify the development of web services that follow the REST architectural style.
 
 It provides annotations to map Java classes and methods to web resources, allowing developers to easily expose RESTful endpoints.
 
@@ -115,6 +115,46 @@ public class ItemResource {
 ```
 
 ## JPA (Java Persistence API)
+Java Persistence API (JPA) is a standard specification in Java for managing relational data in enterprise applications using object-relational mapping (ORM).
+
+It abstracts the database interactions, allowing developers to work with Java objects instead of SQL queries.
+
+Common JPA implementations include Hibernate, EclipseLink, and Apache OpenJPA, each providing additional features and optimizations while adhering to the JPA specification.
+
+- JPA Entity: Represents a Java object that maps to a database table, allowing you to work with database records as Java objects.
+- persistence.xml: A configuration file that defines the persistence units in a JPA application. It specifies the database connection details, entity classes, and other JPA settings, serving as the blueprint for how the application interacts with the database. Typically located in the META-INF directory within the classpath of a Java application. For a standard Maven project, it is placed in: `src/main/resources/META-INF/persistence.xml`
+- EntityManager: The primary interface used for interacting with the persistence context in JPA. It manages the lifecycle of entities, handles CRUD operations, and provides query capabilities to interact with the database.
+- EntityManagerFactory: A factory class responsible for creating EntityManager instances. It is a heavyweight object that is typically created once per application and used throughout its lifecycle to manage entity managers.
+### Simple example
+#### Map RDBMS table to a JPA entity
+```sql
+CREATE TABLE User (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255)
+);
+```
+```java
+import jakarta.persistence.*;
+
+@Entity
+import jakarta.persistence.*;
+
+@Entity // Marks this class as a JPA entity, which maps to a database table
+@Table(name = "users") // Specifies the name of the table in the database as "users"
+public class User {
+
+    @Id // Specifies the primary key of the entity
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Indicates that the ID should be generated automatically by the database
+    @Column(name = "id", nullable = false, updatable = false) // Maps this field to the "id" column in the database, making it non-nullable and non-updatable
+    private Long id;
+    @Column(name = "name", nullable = false, length = 255) // Maps this field to the "name" column, setting it as non-nullable with a maximum length of 255 characters
+    private String name;
+    @Column(name = "email", nullable = false, unique = true, length = 255) // Maps this field to the "email" column, making it non-nullable, unique, and with a maximum length of 255 characters
+    private String email;
+
+}
+```
 ## JMS (Java Message Service)
 ## CDI (Contexts and Dependency Injection)
 ## Demo
