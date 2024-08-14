@@ -42,10 +42,103 @@ In essence, Jakarta EE is about standardization and enterprise-level consistency
 
 Both are powerful, but the choice depends on project needs and developer preferences.
 
+## JAX-RS (Java API for RESTful Web Services).
+JAX-RS (Java API for RESTful Web Services) is a Java API designed to simplify the development of web services that follow the REST architectural style.
+
+It provides annotations to map Java classes and methods to web resources, allowing developers to easily expose RESTful endpoints.
+
+JAX-RS supports common HTTP methods like GET, POST, PUT, DELETE, and makes it straightforward to consume and produce various data formats, such as JSON and XML.
+
+It's popular implementations include [Jersey](https://eclipse-ee4j.github.io/jersey/ "Jersey") and [RESTEasy](https://resteasy.dev/ "RESTEasy").
+
+### Differences between JAX-RS and Java Servlets
+#### Purpose:
+- JAX-RS is specifically designed for creating RESTful web services, providing a higher-level API with annotations that simplify the mapping of HTTP requests to Java methods.
+
+- Java Servlets, on the other hand, are a more general-purpose API for handling HTTP requests and responses, often requiring more boilerplate code to implement RESTful behavior.
+
+#### Abstraction:
+- JAX-RS abstracts away much of the low-level details of handling HTTP requests, allowing developers to focus on the resource representation and business logic.
+
+- Java Servlets require developers to manually handle HTTP request and response objects, making them more flexible but also more verbose and complex for common web service tasks.
+
+#### Annotations vs. Code:
+- JAX-RS uses annotations (like @GET, @POST, @Path, @Produces, and @Consumes) to declaratively define how methods handle HTTP requests.
+
+- Java Servlets rely on overriding methods like doGet() and doPost() in a servlet class, leading to more imperative code.
+
+#### Ease of Use:
+- JAX-RS is easier and faster to use for creating RESTful APIs, as it handles many common tasks out-of-the-box.
+
+- Servlets, while more flexible, require more manual configuration and coding, making them more suitable for lower-level HTTP handling or non-RESTful web applications.
+
+#### Specification vs. Core API:
+- JAX-RS is a framework that builds on top of the servlet API, often using servlets internally to process requests.
+
+- Java Servlets are a core part of Java’s web development capabilities and are the foundation upon which many Java web frameworks (including JAX-RS implementations) are built.
+
+### Difference between JAX-RS `Resource` and Spring `Controller`
+Spring Controller is part of the Spring MVC framework, designed for building web applications with extensive features and tight integration into the Spring ecosystem, using annotations like `@RestController` and `@RequestMapping`.
+
+JAX-RS Resource is a Jakarta EE component focused on creating RESTful web services with a simpler, resource-oriented approach, using annotations like `@Path`, `@GET`, and `@Produces`. While Spring Controller offers broader web capabilities, JAX-RS Resource is more specialized for RESTful interactions.
+
+### Simple JAX RS Resource
+```java
+import jakarta.ws.rs.*; // Import JAX-RS annotations and classes
+import jakarta.ws.rs.core.MediaType; // Import MediaType for specifying content types
+import jakarta.ws.rs.core.Response; // Import Response class for creating HTTP responses
+
+@Path("/items") // Define the base URI path for this resource
+public class ItemResource {
+
+    @GET // Handle HTTP GET requests
+    @Produces(MediaType.APPLICATION_JSON) // Specify that this method produces JSON responses
+    public Response getItems(@QueryParam("type") String type) { // Accept a query parameter 'type' from the URL
+        return Response.ok(/* JSON response */).build(); // Return a 200 OK response with JSON content
+    }
+
+    @GET // Handle HTTP GET requests
+    @Path("/{id}") // Append /{id} to the base URI, making this method accessible at /items/{id}
+    @Produces(MediaType.APPLICATION_XML) // Specify that this method produces XML responses
+    public Response getItemById(@PathParam("id") String id) { // Accept a path parameter 'id' from the URL
+        return Response.ok(/* XML response */).build(); // Return a 200 OK response with XML content
+    }
+
+    @GET // Handle HTTP GET requests
+    @Path("/all") // Append /all to the base URI, making this method accessible at /items/all
+    @Produces(MediaType.APPLICATION_JSON) // Specify that this method produces JSON responses
+    public Response getAllItems() { // No parameters, returns all items
+        return Response.ok(/* JSON array response */).build(); // Return a 200 OK response with a JSON array
+    }
+
+    @POST // Handle HTTP POST requests
+    @Consumes(MediaType.APPLICATION_JSON) // Specify that this method consumes JSON request bodies
+    @Produces(MediaType.APPLICATION_JSON) // Specify that this method produces JSON responses
+    public Response createItem(String jsonBody) { // Accept a JSON string as the request body
+        return Response.status(Response.Status.CREATED).entity(/* JSON response */).build(); // Return a 201 Created response with JSON content
+    }
+
+    @PUT // Handle HTTP PUT requests
+    @Path("/{id}") // Append /{id} to the base URI, making this method accessible at /items/{id}
+    @Consumes(MediaType.APPLICATION_XML) // Specify that this method consumes XML request bodies
+    @Produces(MediaType.APPLICATION_XML) // Specify that this method produces XML responses
+    public Response updateItem(@PathParam("id") String id, String xmlBody) { // Accept a path parameter 'id' and an XML string as the request body
+        return Response.ok(/* Updated XML response */).build(); // Return a 200 OK response with updated XML content
+    }
+
+    @DELETE // Handle HTTP DELETE requests
+    @Path("/{id}") // Append /{id} to the base URI, making this method accessible at /items/{id}
+    @Produces(MediaType.TEXT_PLAIN) // Specify that this method produces plain text responses
+    public Response deleteItem(@PathParam("id") String id) { // Accept a path parameter 'id' from the URL
+        return Response.ok("Item with ID " + id + " deleted successfully").build(); // Return a 200 OK response with a plain text message
+    }
+}
+```
+
+
 ## JPA (Java Persistence API)
 ## JMS (Java Message Service)
 ## CDI (Contexts and Dependency Injection)
-## JAX-RS (Java API for RESTful Web Services).
 ## Demo
 ![](https://shaikezam.com/style/jakarta_hld.png)
 
