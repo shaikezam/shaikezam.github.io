@@ -332,22 +332,21 @@ Contexts and Dependency Injection (CDI) is a Java API and a standard specificati
 
 CDI simplifies this process by automatically handling the creation, management, and destruction of objects, allowing developers to focus on the core logic of their applications.
 
-
 Java CDI (Contexts and Dependency Injection) has several core concepts that are essential to understanding how it works:
 
 - **CDI Container**: The CDI container is the runtime environment that manages CDI beans and their lifecycles. It is responsible for handling dependency injection, managing bean scopes, and coordinating the interactions between beans. The container automatically initializes, injects, and destroys beans as needed, based on the application's configuration and usage.
 
-- **Beans**: In CDI, a bean is any Java object that can be managed by the CDI container. Beans are the main components that get injected into other objects. They can be simple POJOs (Plain Old Java Objects) annotated with CDI-specific annotations like @Inject, @Named, @ApplicationScoped, etc.
+- **Beans**: In CDI, a bean is any Java object that can be managed by the CDI container. Beans are the main components that get injected into other objects. They can be simple POJOs (Plain Old Java Objects) annotated with CDI-specific annotations like `@Inject`, `@Named`, `@ApplicationScoped`, etc.
 
 - **Dependency Injection (DI)**: DI is a design pattern where an object's dependencies are provided by an external entity rather than being created by the object itself. In CDI, the container automatically injects the required beans into your objects, reducing the need for manual object creation.
 
-- **Scopes**: Scopes define the lifecycle of beans, determining how long they live and in what context they are shared. Common scopes include @RequestScoped (beans live for a single HTTP request), @SessionScoped (beans live for a user session), and @ApplicationScoped (beans live for the entire application's lifetime).
+- **Scopes**: Scopes define the lifecycle of beans, determining how long they live and in what context they are shared. Common scopes include `@RequestScoped` (beans live for a single HTTP request), `@SessionScoped` (beans live for a user session), and `@ApplicationScoped` (beans live for the entire application's lifetime).
 
 - **Interceptors**: Interceptors allow you to add cross-cutting concerns (like logging, security, or transaction management) to your beans. They are methods that wrap around the business logic and can be applied using annotations like @AroundInvoke (Similar to `AspectJ`).
 
-- **Producers**: Sometimes, a bean cannot be created automatically by the CDI container due to complex initialization requirements. Producers, annotated with @Produces, allow you to create and configure such beans manually before they are injected.
+- **Producers**: Sometimes, a bean cannot be created automatically by the CDI container due to complex initialization requirements. Producers, annotated with `@Produces`, allow you to create and configure such beans manually before they are injected.
 
-- **Events**: CDI supports a publish-subscribe model where beans can fire events and others can observe and react to those events. This is done using @Observes to listen for events and @Inject Event to fire them.
+- **Events**: CDI supports a publish-subscribe model where beans can fire events and others can observe and react to those events. This is done using `@Observes` to listen for events and `@Inject` Event to fire them.
 
 ## Demo
 ![](https://shaikezam.com/style/jakarta_hld.png)
