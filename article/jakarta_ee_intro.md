@@ -236,6 +236,20 @@ Unlike specific messaging systems, which are platform-specific, JMS provides a u
 6. **JMS Queue**: A holding area where messages are stored until they are consumed by a single recipient, ensuring each message is processed in the order it was sent and only once.
 7. **JMS Topic**: A broadcast mechanism that allows messages to be published and delivered to multiple recipients.
 
+### JMS Patterns
+
+#### Point-to-Point (Queue)
+In this model, messages are sent to a specific queue. Each message is consumed by only one recipient.
+- Producer sends messages to a queue.
+- Consumer receives each message from the queue (one consumer per message).
+- Ideal For: Task processing, order handling.
+
+#### Publish/Subscribe (Topic)
+In this model, messages are sent to a topic, and all subscribers to that topic receive the message.
+- Publisher sends messages to a topic.
+- Subscribers receive messages from the topic (all subscribers get the message).
+- Ideal For: Broadcasting updates, event distribution.
+
 ### Example for JMS Producer and JMS Listener
 ```java
 import jakarta.jms.ConnectionFactory;
