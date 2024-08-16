@@ -228,13 +228,91 @@ JMS abstracts the underlying messaging systems, such as message queues (MQ) and 
 
 Unlike specific messaging systems, which are platform-specific, JMS provides a unified interface, making it easier to switch between different messaging providers without changing the application code.
 ### JMS entities
-1. **JMS Provider**: A system that implements the JMS interface for message-oriented middleware (MOM), either as a native Java JMS implementation or as a bridge to a non-Java MOM system.
+1. **JMS Provider**: A system that implements the JMS interface for message-oriented middleware (MOM), for example `ActiveMQ` or `RabbitMQ`.
 2. **JMS Client**: A software application or process that sends or receives messages using the JMS API.
 3. **JMS Producer/Publisher**: A type of JMS client responsible for creating and dispatching messages to a destination.
 4. **JMS Consumer/Subscriber**: A JMS client that receives and processes messages.
 5. **JMS Message**: The data packet exchanged between JMS clients, encapsulated in an object.
 6. **JMS Queue**: A holding area where messages are stored until they are consumed by a single recipient, ensuring each message is processed in the order it was sent and only once.
 7. **JMS Topic**: A broadcast mechanism that allows messages to be published and delivered to multiple recipients.
+
+### Example for JMS Producer and JMS Listener
+```java
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSProducer;
+import jakarta.jms.Queue;
+import org.apache.activemq.ActiveMQConnectionFactory;
+
+/**
+ * JMSProducerExample demonstrates how to create a JMS producer
+ * that sends a message to a queue using Jakarta JMS 3.1 and ActiveMQ.
+ */
+public class JMSProducerExample {
+    public static void main(String[] args) {
+        // Create a ConnectionFactory instance for connecting to ActiveMQ
+        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        // Create a JMSContext, which represents a session with the JMS provider
+        try (JMSContext context = factory.createContext()) {
+            // Create a Queue destination named "testQueue"
+            Queue queue = context.createQueue("testQueue");
+            // Create a JMSProducer instance for sending messages
+            JMSProducer producer = context.createProducer();
+            // Send a text message to the queue
+            producer.send(queue, "Hello, Jakarta JMS 3.1!");
+            System.out.println("Message sent.");
+        }
+    }
+}
+```
+
+```java
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSConsumer;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+import jakarta.jms.Queue;
+import org.apache.activemq.ActiveMQConnectionFactory;
+
+/**
+ * JMSListenerExample demonstrates how to create a JMS consumer
+ * that listens for messages from a queue using Jakarta JMS 3.1 and ActiveMQ.
+ */
+public class JMSListenerExample implements MessageListener {
+
+    public static void main(String[] args) {
+        // Create a ConnectionFactory instance for connecting to ActiveMQ
+        ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        // Create a JMSContext, which represents a session with the JMS provider
+        try (JMSContext context = factory.createContext()) {
+            // Create a Queue destination named "testQueue"
+            Queue queue = context.createQueue("testQueue");
+            // Create a JMSConsumer instance for receiving messages from the queue
+            JMSConsumer consumer = context.createConsumer(queue);
+            // Set this class as the message listener for the consumer
+            consumer.setMessageListener(new JMSListenerExample());
+            System.out.println("Listener started. Waiting for messages...");
+            // Keep the listener alive for 10 seconds to receive messages
+            Thread.sleep(10000); // Keep the listener alive for 10 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onMessage(Message message) {
+        try {
+            // Extract and print the message body
+            String body = message.getBody(String.class);
+            System.out.println("Received message: " + body);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
 ## CDI (Contexts and Dependency Injection)
 ## Demo
 ![](https://shaikezam.com/style/jakarta_hld.png)
