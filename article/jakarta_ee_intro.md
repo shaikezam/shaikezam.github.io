@@ -42,7 +42,7 @@ In essence, Jakarta EE is about standardization and enterprise-level consistency
 
 Both are powerful, but the choice depends on project needs and developer preferences.
 
-## JAX-RS (Java API for RESTful Web Services).
+## JAX-RS (Java API for RESTful Web Services)
 JAX-RS (Java API for RESTful Web Services) is a Java API and a standard specification designed to simplify the development of web services that follow the REST architectural style.
 
 It provides annotations to map Java classes and methods to web resources, allowing developers to easily expose RESTful endpoints.
@@ -222,6 +222,19 @@ public class JpaExample {
 ```
 
 ## JMS (Java Message Service)
+Java Message Service (JMS) is a Java API and a standard specification that enables asynchronous communication between distributed systems through message-oriented middleware, allowing applications to send, receive, and process messages reliably.
+
+JMS abstracts the underlying messaging systems, such as message queues (MQ) and publish/subscribe models, providing a standard API that can work with various messaging protocols.
+
+Unlike specific messaging systems, which are platform-specific, JMS provides a unified interface, making it easier to switch between different messaging providers without changing the application code.
+### JMS entities
+1. **JMS Provider**: A system that implements the JMS interface for message-oriented middleware (MOM), either as a native Java JMS implementation or as a bridge to a non-Java MOM system.
+2. **JMS Client**: A software application or process that sends or receives messages using the JMS API.
+3. **JMS Producer/Publisher**: A type of JMS client responsible for creating and dispatching messages to a destination.
+4. **JMS Consumer/Subscriber**: A JMS client that receives and processes messages.
+5. **JMS Message**: The data packet exchanged between JMS clients, encapsulated in an object.
+6. **JMS Queue**: A holding area where messages are stored until they are consumed by a single recipient, ensuring each message is processed in the order it was sent and only once.
+7. **JMS Topic**: A broadcast mechanism that allows messages to be published and delivered to multiple recipients.
 ## CDI (Contexts and Dependency Injection)
 ## Demo
 ![](https://shaikezam.com/style/jakarta_hld.png)
