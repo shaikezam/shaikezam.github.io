@@ -227,7 +227,7 @@ Java Message Service (JMS) is a Java API and a standard specification that enabl
 JMS abstracts the underlying messaging systems, such as message queues (MQ) and publish/subscribe models, providing a standard API that can work with various messaging protocols.
 
 Unlike specific messaging systems, which are platform-specific, JMS provides a unified interface, making it easier to switch between different messaging providers without changing the application code.
-### JMS entities
+### JMS Entities
 1. **JMS Provider**: A system that implements the JMS interface for message-oriented middleware (MOM), for example `ActiveMQ` or `RabbitMQ`.
 2. **JMS Client**: A software application or process that sends or receives messages using the JMS API.
 3. **JMS Producer/Publisher**: A type of JMS client responsible for creating and dispatching messages to a destination.
@@ -250,7 +250,7 @@ In this model, messages are sent to a topic, and all subscribers to that topic r
 - Subscribers receive messages from the topic (all subscribers get the message).
 - Ideal For: Broadcasting updates, event distribution.
 
-### Example for JMS Producer and JMS Listener
+### Example for JMS Producer and JMS Listener (Point-to-Point)
 ```java
 import jakarta.jms.ConnectionFactory;
 import jakarta.jms.JMSContext;
