@@ -353,7 +353,7 @@ This Jakarta project demo is designed to showcase a microservices architecture, 
 
 The project consists of multiple services, each encapsulated in its own Docker container, interconnected through a shared network (app-network).
 
-- **UI Service** (ui-service): This service handles the user interface of the application, built with Alpine.js and running on Node.js with Express. It connects to the shared network (app-network) and is responsible for presenting data from the backend services to the user.
+- **UI Service** (ui-service): This service handles the user interface of the application, built with Alpine.js and running on Node.js with Express. Responsible for presenting data from the backend services to the user.
 
 - **Order Service** (order-service): This backend service manages orders. It connects to a MariaDB database (db-service) and interacts with a messaging service for asynchronous communication.
 
@@ -374,16 +374,27 @@ This demo demonstrates a typical Jakarta microservices architecture, showcasing 
 ### Project Structure
 
 ├── messaging-service/
+
 ├── nginx-service/
+
 ├── order-service/
+
 ├── product-service/
+
 ├── db-service/
+
 ├── ui-service/
+
 ├── utils/
+
 ├── build.sh
+
 ├── pom.xml
+
 ├── docker-compose.yml
+
 ├── .env
+
 └──uninstall.sh
 
 #### `pom.xml file`
