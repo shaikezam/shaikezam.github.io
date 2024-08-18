@@ -349,7 +349,26 @@ Java CDI (Contexts and Dependency Injection) has several core concepts that are 
 - **Events**: CDI supports a publish-subscribe model where beans can fire events and others can observe and react to those events. This is done using `@Observes` to listen for events and `@Inject` Event to fire them.
 
 ## Demo
-![](https://shaikezam.com/style/jakarta_hld.png)
+This Jakarta project demo is designed to showcase a microservices architecture, using Docker Compose to orchestrate multiple services.
 
+The project consists of multiple services, each encapsulated in its own Docker container, interconnected through a shared network (app-network).
+
+- UI Service (ui-service): This service handles the user interface of the application, built with Alpine.js and running on Node.js with Express. It connects to the shared network (app-network) and is responsible for presenting data from the backend services to the user.
+
+- Order Service (order-service): This backend service manages orders. It connects to a MariaDB database (db-service) and interacts with a messaging service for asynchronous communication.
+
+- Product Service (product-service): Similar to the order service, the product service handles product-related data. It also relies on the db-service for persistence and the messaging service for communication.
+
+- Messaging Service (messaging-service): This service provides a message broker, using classic ActiveMQ, to facilitate communication between different services. It's essential for handling asynchronous tasks such as processing orders and updating inventory.
+
+- Nginx Service (nginx-service): This service acts as a reverse proxy, routing incoming HTTP requests to the appropriate backend services. It exposes port 8080 to the host, making the application accessible to users.
+
+- Database Service (db-service): The database service is a MariaDB instance that stores data for the order and product services.
+
+- phpMyAdmin (phpmyadmin): This service provides a web interface for managing the MariaDB database. It connects to the db-service and is exposed on port 8004, allowing developers to interact with the database easily.
+
+This demo demonstrates a typical Jakarta microservices architecture, showcasing how different components can work together in a containerized environment.
+
+![](https://shaikezam.com/style/jakarta_hld.png)
 
 The above demo can be run after you clone my [repository](https://github.com/shaikezam/Jakarta-EE-Application "repository").
