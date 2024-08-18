@@ -353,22 +353,270 @@ This Jakarta project demo is designed to showcase a microservices architecture, 
 
 The project consists of multiple services, each encapsulated in its own Docker container, interconnected through a shared network (app-network).
 
-- UI Service (ui-service): This service handles the user interface of the application, built with Alpine.js and running on Node.js with Express. It connects to the shared network (app-network) and is responsible for presenting data from the backend services to the user.
+- **UI Service** (ui-service): This service handles the user interface of the application, built with Alpine.js and running on Node.js with Express. It connects to the shared network (app-network) and is responsible for presenting data from the backend services to the user.
 
-- Order Service (order-service): This backend service manages orders. It connects to a MariaDB database (db-service) and interacts with a messaging service for asynchronous communication.
+- **Order Service** (order-service): This backend service manages orders. It connects to a MariaDB database (db-service) and interacts with a messaging service for asynchronous communication.
 
-- Product Service (product-service): Similar to the order service, the product service handles product-related data. It also relies on the db-service for persistence and the messaging service for communication.
+- **Product Service** (product-service): Similar to the order service, the product service handles product-related data. It also relies on the db-service for persistence and the messaging service for communication.
 
-- Messaging Service (messaging-service): This service provides a message broker, using classic ActiveMQ, to facilitate communication between different services. It's essential for handling asynchronous tasks such as processing orders and updating inventory.
+- **Messaging Service** (messaging-service): This service provides a message broker, using classic ActiveMQ, to facilitate communication between different services. It's essential for handling asynchronous tasks such as processing orders and updating inventory.
 
-- Nginx Service (nginx-service): This service acts as a reverse proxy, routing incoming HTTP requests to the appropriate backend services. It exposes port 8080 to the host, making the application accessible to users.
+- **Nginx Service** (nginx-service): This service acts as a reverse proxy, routing incoming HTTP requests to the appropriate backend services. It exposes port 8080 to the host, making the application accessible to users.
 
-- Database Service (db-service): The database service is a MariaDB instance that stores data for the order and product services.
+- **Database Service** (db-service): The database service is a MariaDB instance that stores data for the order and product services.
 
-- phpMyAdmin (phpmyadmin): This service provides a web interface for managing the MariaDB database. It connects to the db-service and is exposed on port 8004, allowing developers to interact with the database easily.
+- **phpMyAdmin** (phpmyadmin): This service provides a web interface for managing the MariaDB database. It connects to the db-service and is exposed on port 8004, allowing developers to interact with the database easily.
 
 This demo demonstrates a typical Jakarta microservices architecture, showcasing how different components can work together in a containerized environment.
 
 ![](https://shaikezam.com/style/jakarta_hld.png)
+
+### Project Structure
+
+├── messaging-service/
+├── nginx-service/
+├── order-service/
+├── product-service/
+├── db-service/
+├── ui-service/
+├── utils/
+├── build.sh
+├── pom.xml
+├── docker-compose.yml
+├── .env
+└──uninstall.sh
+
+#### `pom.xml file`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.shaikezam</groupId>
+    <artifactId>jakarta-system-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <jetty.version>12.0.12</jetty.version>
+        <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
+        <jakarta.enterprise.cdi-api.version>4.0.1</jakarta.enterprise.cdi-api.version>
+        <jersey.version>3.1.8</jersey.version>
+        <jackson.version>2.17.0</jackson.version>
+        <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
+        <eclipselink.version>4.0.4</eclipselink.version>
+        <mariadb-java-client.version>3.3.3</mariadb-java-client.version>
+        <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
+        <activemq-client.version>6.0.1</activemq-client.version>
+        <jakarta.jms-api.version>3.1.0</jakarta.jms-api.version>
+        <lombok.version>1.18.30</lombok.version>
+        <flyway-core.version>8.0.5</flyway-core.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <caffeine.version>3.1.8</caffeine.version>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-servlet-core</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.inject</groupId>
+                <artifactId>jersey-cdi2-se</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-jackson</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty.ee10</groupId> <!-- https://github.com/jetty/jetty.project/issues/10485 -->
+                <artifactId>jetty-ee10-servlet</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>${jakarta.enterprise.cdi-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.ws.rs</groupId>
+                <artifactId>jakarta.ws.rs-api</artifactId>
+                <version>${jakarta.ws.rs-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.persistence</groupId>
+                <artifactId>jakarta.persistence-api</artifactId>
+                <version>${jakarta.persistence-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>eclipselink</artifactId>
+                <version>${eclipselink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.jpa</artifactId>
+                <version>${eclipselink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mariadb.jdbc</groupId>
+                <artifactId>mariadb-java-client</artifactId>
+                <version>${mariadb-java-client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>{mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-client</artifactId>
+                <version>${activemq-client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.jms</groupId>
+                <artifactId>jakarta.jms-api</artifactId>
+                <version>${jakarta.jms-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shaikezam</groupId>
+                <artifactId>utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <modules>
+        <module>product-service</module>
+        <module>order-service</module>
+        <module>utils</module>
+    </modules>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                            <configuration>
+                                <appendAssemblyId>false</appendAssemblyId>
+                                <archive>
+                                    <manifest>
+                                        <mainClass>io.shaikezam.WebServer</mainClass>
+                                    </manifest>
+                                </archive>
+                                <descriptorRefs>
+                                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                                </descriptorRefs>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>${lombok-mapstruct-binding.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
+```
+
+This pom.xml file defines a multi-module Maven project that serves as the parent POM for our demo system.
+
+> A parent POM in Maven is a central configuration file that allows you to manage common settings, dependencies, and plugins for multiple projects (or modules) from one place, promoting consistency and reducing redundancy across those projects. Dependency Management and Plugin Management sections within a parent POM are used to specify versions and configurations for dependencies and plugins, respectively, which can then be inherited or overridden by child projects, ensuring consistency and ease of maintenance.
+
+- **Jersey**: For RESTful services.
+- **Jersey CDI2 SE**: Integrates Jersey with Jakarta CDI.
+- **Jackson**: For JSON processing.
+- **Jetty**: To run as a servlet container.
+- **Jakarta APIs**:
+    - **Jakarta Servlet API** (jakarta.servlet-api): Defines the standard for handling HTTP requests and responses in Java web applications, enabling the creation of dynamic web content.
+    - **Jakarta Enterprise CDI API** (jakarta.enterprise.cdi-api): Defines the standard for dependency injection and lifecycle management of Java beans, promoting loose coupling and modular design.
+    - **Jakarta RESTful Web Services API** (jakarta.ws.rs-api): Defines the standard of RESTful web services by providing annotations and interfaces for defining and managing RESTful resources.
+    - **Jakarta Persistence API** (jakarta.persistence-api): Defines a standard for object-relational mapping (ORM) in Java, allowing seamless interaction between Java objects and relational databases.
+    - **Jakarta JMS API** (jakarta.jms-api): Provides a standard way to handle asynchronous messaging between distributed components in a Java application using message-oriented middleware.
+- **EclipseLink**: As the JPA provider.
+- **MariaDB**: For database connectivity.
+- **Lombok & MapStruct**: For reducing boilerplate code and object mapping.
+- **ActiveMQ**: For messaging.
+- **Caffeine**: For caching.
+
 
 The above demo can be run after you clone my [repository](https://github.com/shaikezam/Jakarta-EE-Application "repository").
