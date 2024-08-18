@@ -631,3 +631,5 @@ This pom.xml file defines a multi-module Maven project that serves as the parent
 
 
 The above demo can be run after you clone my [repository](https://github.com/shaikezam/Jakarta-EE-Application "repository").
+
+Once executing build.sh script, which builds and runs Docker containers for a Jakarta EE application, the web application will be accessible through `localhost:8080`, and an uninstall.sh script for stopping and removing containers and images
