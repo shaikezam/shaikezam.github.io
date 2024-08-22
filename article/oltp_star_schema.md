@@ -11,3 +11,13 @@ As databases evolved to store a wider variety of data—like user interactions, 
 However, as businesses increasingly relied on data for decision-making, a new approach to data access emerged. This approach focused on analyzing large datasets to extract meaningful insights. Unlike transactional queries, these analytic queries involved scanning extensive records, performing aggregations, and generating statistics to support business strategy. This shift led to the development of online analytic processing (OLAP) systems, which were tailored to handle complex queries over large datasets.
 
 By the late 1980s and early 1990s, it became evident that using the same databases for both OLTP and OLAP was not efficient. To better support the demands of data analysis, organizations began separating their analytic workloads from transactional systems. This gave rise to the data warehouse—a specialized database designed to store vast amounts of historical data and facilitate robust data analytics and business intelligence.
+
+## Five key differences between OLTP and OLAP
+| **Property**        | **OLTP (Online Transaction Processing)**  | **OLAP (Online Analytical Processing)**      |
+|---------------------|-------------------------------------------|----------------------------------------------|
+| **Primary Purpose** | Manage day-to-day operations              | Support data analysis and decision-making    |
+| **Query Type**      | Short, simple transactions                | Complex queries with aggregations            |
+| **Data Volume**     | Smaller, often gigabytes to terabytes     | Large, often terabytes to petabytes          |
+| **Data Type**       | Current, real-time data                   | Historical data, often aggregated            |
+| **User Type**       | End-users/customers via applications      | Analysts and management for insights         |
+
