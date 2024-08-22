@@ -76,5 +76,6 @@ Both methods ensure the data is cleaned and prepared for in-depth analysis.
 | **Complexity**      | Handles complex transformations before loading | Relies on the target system for transformations |
 | **Performance**     | May have bottlenecks in the transformation phase | Leverages target system scalability          |
 | **Flexibility**     | Less flexible for changes                    | Allows more on-the-fly transformations       |
+| **Cost**                | May involve additional costs for ETL tools and infrastructure | Typically utilizes existing infrastructure, potentially reducing costs |   
 | **Diagram**     | ![](https://shaikezam.com/style/etl.png)                    | ![](https://shaikezam.com/style/elt.png)       |
 
