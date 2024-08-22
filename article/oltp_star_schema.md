@@ -79,3 +79,8 @@ Both methods ensure the data is cleaned and prepared for in-depth analysis.
 | **Cost**                | May involve additional costs for ETL tools and infrastructure | Typically utilizes existing infrastructure, potentially reducing costs |   
 | **Diagram**     | ![](https://shaikezam.com/style/etl.png)                    | ![](https://shaikezam.com/style/elt.png)       |
 
+## Data modeling in data Warehousing: Star Schema
+
+A variety of data models are employed in transaction processing based on application requirements.
+
+Conversely, in analytics, data models are less varied. Many data warehouses utilize a standardized approach called a star schema, or dimensional modeling.
