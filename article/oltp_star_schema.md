@@ -68,8 +68,13 @@ Both methods ensure the data is cleaned and prepared for in-depth analysis.
 - **ELT (Extract, Load, Transform)**: A data integration process where data is extracted from sources, loaded directly into a target system, and then transformed within the target system.
 
 <ins>Differences</ins>
-- **Order**: ETL transforms before loading; ELT loads before transforming.
-- **Processing Location**: ETL uses a staging area; ELT uses the target system.
-- **Complexity**: ETL handles complex transformations before loading; ELT relies on the target system for transformations.
-- **Performance**: ETL may have bottlenecks in the transformation phase; ELT leverages target system scalability.
-- **Flexibility**: ETL is less flexible for changes; ELT allows more on-the-fly transformations.
+
+| **Difference**      | **ETL**                                      | **ELT**                                      |
+|---------------------|----------------------------------------------|----------------------------------------------|
+| **Order**           | Transforms before loading                    | Loads before transforming                    |
+| **Processing Location** | Uses a staging area                        | Uses the target system                       |
+| **Complexity**      | Handles complex transformations before loading | Relies on the target system for transformations |
+| **Performance**     | May have bottlenecks in the transformation phase | Leverages target system scalability          |
+| **Flexibility**     | Less flexible for changes                    | Allows more on-the-fly transformations       |
+| **Diagram**     | ![](https://shaikezam.com/style/etl.png)                    | ![](https://shaikezam.com/style/elt.png)       |
+
