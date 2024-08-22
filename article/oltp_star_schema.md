@@ -38,3 +38,26 @@ This gave rise to the data warehouse—a specialized database designed to store 
 | **Data Type**       | Current, real-time data                   | Historical data, often aggregated            |
 | **User Type**       | End-users/customers via applications      | Analysts and management for insights         |
 
+The concept of the data warehouse emerged as businesses began to realize that using the same database for both transactional processing (OLTP) and data analytics (OLAP) was not efficient.
+
+Initially, companies used their OLTP databases for both types of operations—managing day-to-day transactions and running analytic queries.
+
+However, this dual use presented challenges, as OLTP systems are optimized for fast, small transactions, while OLAP requires scanning and aggregating large volumes of data.
+
+As the need for in-depth analysis and decision-making grew, it became clear that separating these workloads would improve performance and efficiency.
+
+This led to the creation of dedicated databases for analytics, known as **data warehouses**.
+
+These specialized systems were designed to handle large-scale data aggregation and analysis, allowing companies to perform complex queries on historical data without impacting the performance of their transactional systems.
+
+Thus, the data warehouse was born out of the need to support robust data analytics separate from the operational demands of OLTP systems.
+
+Data warehouses were developed as separate databases dedicated to analytical tasks.
+
+These warehouses enable analysts to perform extensive queries without interfering with the OLTP systems.
+
+The data warehouse contains a read-only copy of the data from the organization’s various OLTP systems.
+
+This data is either periodically or continuously extracted from the OLTP systems. It is then either transformed into a structure optimized for analysis before being loaded into the data warehouse (**ETL: Extract–Transform–Load**) or loaded directly into the warehouse where transformation occurs afterward (**ELT: Extract–Load–Transform**).
+
+Both methods ensure the data is cleaned and prepared for in-depth analysis.
