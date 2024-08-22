@@ -61,3 +61,15 @@ The data warehouse contains a read-only copy of the data from the organization�
 This data is either periodically or continuously extracted from the OLTP systems. It is then either transformed into a structure optimized for analysis before being loaded into the data warehouse (**ETL: Extract–Transform–Load**) or loaded directly into the warehouse where transformation occurs afterward (**ELT: Extract–Load–Transform**).
 
 Both methods ensure the data is cleaned and prepared for in-depth analysis.
+
+### ETL (Extract–Transform–Load) vs ELT (Extract–Load–Transform)
+
+- **ETL (Extract, Transform, Load)**: A data integration process where data is extracted from sources, transformed into the required format, and then loaded into a target system.
+- **ELT (Extract, Load, Transform)**: A data integration process where data is extracted from sources, loaded directly into a target system, and then transformed within the target system.
+
+<ins>Differences</ins>
+- **Order**: ETL transforms before loading; ELT loads before transforming.
+- **Processing Location**: ETL uses a staging area; ELT uses the target system.
+- **Complexity**: ETL handles complex transformations before loading; ELT relies on the target system for transformations.
+- **Performance**: ETL may have bottlenecks in the transformation phase; ELT leverages target system scalability.
+- **Flexibility**: ETL is less flexible for changes; ELT allows more on-the-fly transformations.
