@@ -84,3 +84,13 @@ Both methods ensure the data is cleaned and prepared for in-depth analysis.
 A variety of data models are employed in transaction processing based on application requirements.
 
 Conversely, in analytics, data models are less varied. Many data warehouses utilize a standardized approach called a star schema, or dimensional modeling.
+
+![](https://shaikezam.com/style/etlvselt-star_schema_hld.drawio.png)
+
+The star schema for web traffic analysis centers around a fact table that captures key events on a website.
+
+In this case, each row in the fact table might represent a significant user action, such as a page view or a click.
+
+This fact table is linked to various dimension tables that provide additional context, such as the date of the event, details about the user, and information about the specific page they interacted with.
+
+These dimensions help in breaking down and analyzing the website's traffic patterns effectively.
