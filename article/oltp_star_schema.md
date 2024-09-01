@@ -94,3 +94,29 @@ In this case, each row in the fact table might represent a significant user acti
 This fact table is linked to various dimension tables that provide additional context, such as the date of the event, details about the user, and information about the specific page they interacted with.
 
 These dimensions help in breaking down and analyzing the website's traffic patterns effectively.
+
+In a web traffic star schema, each entry in the fact table represents a specific event, such as a page view or a click, which allows for flexible and detailed analysis.
+
+However, this can result in a very large fact table, especially for high-traffic websites with extensive data.
+
+The fact table includes both attributes—like session duration or click counts—and foreign key references to dimension tables.
+
+These dimension tables provide essential details about the events, answering questions such as who the user was, what page they interacted with, when the event occurred, and more.
+
+For example, one dimension table might include user profiles, while another might describe the pages viewed.
+
+Time is often managed through a dimension table as well, which enables more sophisticated analysis, such as comparing traffic patterns on holidays versus regular days.
+
+**The term "star schema" derives from the layout where the fact table is at the center, with dimension tables branching out like the points of a star.**
+
+A related design is the snowflake schema, which further breaks down dimension tables into subdimensions for additional normalization.
+
+This could mean having separate tables for brands and product categories, with each referencing these tables rather than storing the details directly.
+
+While snowflake schemas are more normalized, star schemas are favored for their simplicity and ease of use in data analysis.
+
+In a web traffic data warehouse, tables can be very wide,
+
+with fact tables potentially containing hundreds of columns to capture various metrics.
+
+Dimension tables can also be extensive, including detailed metadata such as user demographics, page characteristics, and referral sources, all contributing to comprehensive web traffic analysis.
