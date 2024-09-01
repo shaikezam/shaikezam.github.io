@@ -120,3 +120,13 @@ In a web traffic data warehouse, tables can be very wide,
 with fact tables potentially containing hundreds of columns to capture various metrics.
 
 Dimension tables can also be extensive, including detailed metadata such as user demographics, page characteristics, and referral sources, all contributing to comprehensive web traffic analysis.
+
+### Why to use Star Schema in data Warehousing?
+
+- Quicker Aggregations: The straightforward queries of a star schema lead to better performance for aggregation tasks.
+
+- Easier Query Management: Star schemas offer simpler join logic compared to highly normalized transactional schemas.
+
+- Streamlined Business Reporting: Star schemas simplify common reporting tasks, such as period-over-period and as-of reporting, compared to more normalized schemas.
+
+- Enhanced Query Performance: Star schemas can improve performance for read-only reporting applications versus highly normalized schemas.
