@@ -151,6 +151,8 @@ These methods help manage changes to dimensional data over time, from simple upd
 
 *No changes tracked; the initial data remains unchanged.*
 
+**Explanation**: SCD Type 0 does not track any changes to the data. The dimension is static, and once the data is loaded into the system, it remains as is. This approach is suitable for data that does not change or where historical changes are not important.
+
 #### SCD Type 1
 
 | Customer ID | Name      | Address          |
@@ -158,6 +160,8 @@ These methods help manage changes to dimensional data over time, from simple upd
 | 1           | John Doe  | 456 Oak St       |
 
 *Old data is overwritten with the new data.*
+
+**Explanation**: SCD Type 1 involves overwriting the existing data with new data. This approach does not preserve any history of changes; the most recent data is all that is retained. It is best used when only the current state of the data is relevant, and historical changes are not needed.
 
 #### SCD Type 2
 
@@ -168,6 +172,8 @@ These methods help manage changes to dimensional data over time, from simple upd
 
 *Tracks historical changes by adding new rows for each change.*
 
+**Explanation**: SCD Type 2 tracks historical changes by creating a new row for each change. It includes additional columns to capture the dates when the data was valid (Effective Date and Expiry Date). This approach is useful for maintaining a full history of changes and is commonly used when it's important to analyze historical data.
+
 #### SCD Type 3
 
 | Customer ID | Name      | Current Address | Previous Address |
@@ -175,6 +181,8 @@ These methods help manage changes to dimensional data over time, from simple upd
 | 1           | John Doe  | 456 Oak St      | 123 Elm St       |
 
 *Stores current and one previous version of the data.*
+
+**Explanation**: SCD Type 3 keeps track of the current data and one previous version by adding extra columns for the old values. This method allows for some historical tracking but is limited to only the most recent past. It's suitable for scenarios where only the immediate past changes are relevant.
 
 #### SCD Type 4
 
@@ -193,6 +201,26 @@ These methods help manage changes to dimensional data over time, from simple upd
 
 *Stores historical data in a separate table.*
 
+**Explanation**: SCD Type 4 separates current data from historical data by maintaining two tables. The main dimension table holds the current data, while a separate historical table records changes over time. This approach is beneficial for managing large datasets where maintaining history separately can optimize performance.
+
+#### SCD Type 5
+
+**Main Dimension Table:**
+
+| Customer ID | Name      | Current Address | Previous Address | Address Change Flag |
+|-------------|-----------|-----------------|------------------|----------------------|
+| 1           | John Doe  | 456 Oak St      | 123 Elm St       | Yes                  |
+
+**Historical Data Table:**
+
+| Customer ID | Address          | Change Date |
+|-------------|------------------|-------------|
+| 1           | 123 Elm St       | 2022-01-01  |
+| 1           | 456 Oak St       | 2024-01-02  |
+
+**Explanation**: SCD Type 5 combines elements of SCD Types 1 and 2. It keeps the current data in the main dimension table and maintains a historical record in a separate table. Additionally, it includes a flag or indicator (e.g., `Address Change Flag`) to signify whether a change has occurred. This approach provides a balance between maintaining a history of changes and managing current data efficiently, especially when changes are infrequent but important to track.
+
+
 #### SCD Type 6
 
 **Main Dimension Table:**
@@ -210,4 +238,4 @@ These methods help manage changes to dimensional data over time, from simple upd
 
 *Combines aspects of Types 1, 2, and 3 by preserving current and historical data through both new rows and new columns.*
 
-
+**Explanation**: SCD Type 6 integrates elements of Types 1, 2, and 3. It maintains current data in the main dimension table while preserving historical changes in a separate table and through additional columns. This hybrid approach offers flexibility, allowing for detailed historical analysis while keeping the most relevant current data readily accessible.
