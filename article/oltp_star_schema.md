@@ -130,3 +130,16 @@ Dimension tables can also be extensive, including detailed metadata such as user
 - Streamlined Business Reporting: Star schemas simplify common reporting tasks, such as period-over-period and as-of reporting, compared to more normalized schemas.
 
 - Enhanced Query Performance: Star schemas can improve performance for read-only reporting applications versus highly normalized schemas.
+
+### How to track changes in Star Schema?
+
+In data management and warehousing, a `Slowly Changing Dimension` (SCD) refers to a type of dimension where the data remains mostly stable but can occasionally change in ways that are hard to predict.
+
+This is different from rapidly changing dimensions, like transactional data (e.g. product price or quantity), which are frequently updated.
+
+Typical examples of SCDs include things like customer address, product descriptio or even employee job title.
+
+Next, I’ll be explaining the six types of Slowly Changing Dimensions (SCD) used in star schema design for data warehouses.
+
+These methods help manage changes to dimensional data over time, from simple updates to more complex ways of keeping history.
+
