@@ -239,3 +239,5 @@ These methods help manage changes to dimensional data over time, from simple upd
 *Combines aspects of Types 1, 2, and 3 by preserving current and historical data through both new rows and new columns.*
 
 **Explanation**: SCD Type 6 integrates elements of Types 1, 2, and 3. It maintains current data in the main dimension table while preserving historical changes in a separate table and through additional columns. This hybrid approach offers flexibility, allowing for detailed historical analysis while keeping the most relevant current data readily accessible.
+
+### It's all about `Surrogate keys`
