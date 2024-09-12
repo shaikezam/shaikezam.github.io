@@ -137,9 +137,77 @@ In data management and warehousing, a `Slowly Changing Dimension` (SCD) refers t
 
 This is different from rapidly changing dimensions, like transactional data (e.g. product price or quantity), which are frequently updated.
 
-Typical examples of SCDs include things like customer address, product descriptio or even employee job title.
+Typical examples of SCDs include things like customer address, product description or even employee job title.
 
 Next, I’ll be explaining the six types of Slowly Changing Dimensions (SCD) used in star schema design for data warehouses.
 
 These methods help manage changes to dimensional data over time, from simple updates to more complex ways of keeping history.
+
+#### SCD Type 0
+
+| Customer ID | Name      | Address          |
+|-------------|-----------|------------------|
+| 1           | John Doe  | 123 Elm St       |
+
+*No changes tracked; the initial data remains unchanged.*
+
+#### SCD Type 1
+
+| Customer ID | Name      | Address          |
+|-------------|-----------|------------------|
+| 1           | John Doe  | 456 Oak St       |
+
+*Old data is overwritten with the new data.*
+
+#### SCD Type 2
+
+| Customer ID | Name      | Address          | Effective Date | Expiry Date |
+|-------------|-----------|------------------|----------------|-------------|
+| 1           | John Doe  | 123 Elm St       | 2022-01-01     | 2024-01-01  |
+| 1           | John Doe  | 456 Oak St       | 2024-01-02     | NULL        |
+
+*Tracks historical changes by adding new rows for each change.*
+
+#### SCD Type 3
+
+| Customer ID | Name      | Current Address | Previous Address |
+|-------------|-----------|-----------------|------------------|
+| 1           | John Doe  | 456 Oak St      | 123 Elm St       |
+
+*Stores current and one previous version of the data.*
+
+#### SCD Type 4
+
+**Main Dimension Table:**
+
+| Customer ID | Name      | Address          |
+|-------------|-----------|------------------|
+| 1           | John Doe  | 456 Oak St       |
+
+**Historical Data Table:**
+
+| Customer ID | Address          | Change Date |
+|-------------|------------------|-------------|
+| 1           | 123 Elm St       | 2022-01-01  |
+| 1           | 456 Oak St       | 2024-01-02  |
+
+*Stores historical data in a separate table.*
+
+#### SCD Type 6
+
+**Main Dimension Table:**
+
+| Customer ID | Name      | Current Address | Previous Address |
+|-------------|-----------|-----------------|------------------|
+| 1           | John Doe  | 456 Oak St      | 123 Elm St       |
+
+**Historical Data Table:**
+
+| Customer ID | Address          | Change Date |
+|-------------|------------------|-------------|
+| 1           | 123 Elm St       | 2022-01-01  |
+| 1           | 456 Oak St       | 2024-01-02  |
+
+*Combines aspects of Types 1, 2, and 3 by preserving current and historical data through both new rows and new columns.*
+
 
